@@ -13,7 +13,7 @@
 
 **Elfogadási kritérium:**  
 
-Egy űrlap, ahol beírható a felhasználónév és jelszó páros, egy gomb segítségével pedig be lehet lépni, amennyiben megfelelő volt az azonosítás. Hiba esetén hibaüzenet jelenik meg.
+Egy űrlap, ahol beírható a felhasználónév és jelszó páros, ezt követően pedig be lehet lépni, amennyiben megfelelő volt az azonosítás. Hiba esetén hibaüzenet jelenik meg.
 
 ---
 ---
