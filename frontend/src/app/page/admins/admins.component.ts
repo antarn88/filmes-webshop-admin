@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Admin } from 'src/app/model/admin';
+import { AdminService } from 'src/app/service/admin.service';
 
 @Component({
   selector: 'app-admins',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminsComponent implements OnInit {
 
-  constructor() { }
+  admins$: Observable<Admin[]> = this.adminService.getAll();
+
+  constructor(
+    private adminService: AdminService,
+  ) { }
 
   ngOnInit(): void {
   }

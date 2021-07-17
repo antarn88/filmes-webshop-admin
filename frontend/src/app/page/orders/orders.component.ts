@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Order } from 'src/app/model/order';
+import { OrderService } from 'src/app/service/order.service';
 
 @Component({
   selector: 'app-orders',
@@ -7,8 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
 
-  constructor() { }
+  orders$: Observable<Order[]> = this.orderService.getAll();
 
+  constructor(
+    public orderService: OrderService,
+  ) { }
+
+  // tslint:disable-next-line: no-empty
   ngOnInit(): void {
   }
 
