@@ -26,7 +26,7 @@ import { AdminsComponent } from './page/admins/admins.component';
     CustomersComponent,
     DeliveriesComponent,
     BillsComponent,
-    AdminsComponent
+    AdminsComponent,
   ],
   imports: [
     BrowserModule,

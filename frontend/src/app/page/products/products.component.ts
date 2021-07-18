@@ -11,14 +11,26 @@ import { ProductService } from 'src/app/service/product.service';
 export class ProductsComponent implements OnInit {
 
   products$: Observable<Product[]> = this.productService.getAll();
+  headers: any;
 
   constructor(
     private productService: ProductService,
   ) { }
 
 
-  // tslint:disable-next-line: no-empty
+  
   ngOnInit(): void {
+    this.headers = {
+      text: ['ID', "Name", "Leírás", "ár", "kép", "aktív"],
+      keys: ['_id', 'name', 'description', 'price', 'photo', 'active']
+    };
+  }
+
+  stringShorter(inputString: string, length: number): string {
+    if (inputString.length > length) {
+      return `${inputString.substring(0, length)}...`;
+    }
+    return inputString;
   }
 
 }

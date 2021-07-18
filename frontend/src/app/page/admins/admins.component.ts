@@ -16,7 +16,12 @@ export class AdminsComponent implements OnInit {
     private adminService: AdminService,
   ) { }
 
+  // tslint:disable-next-line: no-empty
   ngOnInit(): void {
+  }
+
+  passwordToStars(password: string): string {
+    return '*'.repeat(password.length);
   }
 
 }

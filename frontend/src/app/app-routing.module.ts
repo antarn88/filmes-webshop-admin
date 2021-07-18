@@ -36,7 +36,11 @@ const routes: Routes = [
   {
     path: 'admins',
     component: AdminsComponent
-  }
+  },
+  {
+    path: '**',
+    redirectTo: '/'
+  },
 ];
 
 @NgModule({
