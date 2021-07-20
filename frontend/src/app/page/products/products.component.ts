@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/model/product';
+import { ConfigService, ITableColumn } from 'src/app/service/config.service';
 import { ProductService } from 'src/app/service/product.service';
 
 @Component({
@@ -10,27 +11,24 @@ import { ProductService } from 'src/app/service/product.service';
 })
 export class ProductsComponent implements OnInit {
 
-  products$: Observable<Product[]> = this.productService.getAll();
-  headers: any;
+  tableColumns: ITableColumn[] = this.config.productColumns;
+  list$: Observable<Product[]> = this.productService.getAll();
 
   constructor(
+    private config: ConfigService,
     private productService: ProductService,
   ) { }
 
-
-  
+  // tslint:disable-next-line: no-empty
   ngOnInit(): void {
-    this.headers = {
-      text: ['ID', "Name", "Leírás", "ár", "kép", "aktív"],
-      keys: ['_id', 'name', 'description', 'price', 'photo', 'active']
-    };
   }
 
-  stringShorter(inputString: string, length: number): string {
-    if (inputString.length > length) {
-      return `${inputString.substring(0, length)}...`;
-    }
-    return inputString;
+  // tslint:disable-next-line: no-empty
+  onClickEdit(product: Product): void {
+  }
+
+  // tslint:disable-next-line: no-empty
+  onClickDelete(product: Product): void {
   }
 
 }

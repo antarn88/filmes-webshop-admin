@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header bg-dark text-light">
+    {{ tableTitle }}
+  </div>
+  <div class="card-body">
+    <table class="table table-striped table-sm align-middle">
+      <thead class="text-center">
+        <tr>
+          <th *ngFor="let col of tableColumns"> {{ col.title }} </th>
+          <th>Műveletek</th>
+        </tr>
+      </thead>
+      <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+        <tr *ngFor="let row of list$ | async | slice:config.startItem:config.endItem">
+          <td *ngFor="let col of tableColumns" class="p-2">
+            <span *ngIf="!col.hidden">
+              <span *ngIf="!col.htmlOutput && col.key != undefined; else elseBlock">
+                {{ row[col.key] | xPipe:col.pipes:col.pipeArgs | async }}
+              </span>
+              <ng-template #elseBlock>
+                <span *ngIf="col.key">
+                  <span [innerHTML]="col.htmlOutput(row[col.key] | xPipe:col.pipes:col.pipeArgs | async)"></span>
+                </span>
+              </ng-template>
+              <span *ngIf="!col.key && col.merged"
+                [innerHTML]="col.htmlOutput(row | xPipe:col.pipes:col.pipeArgs | async)">{{ row }}</span>
+            </span>
+          </td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-secondary" (click)="onClickEdit(row)"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-danger" (click)="onClickDelete(row)"><i class="fa fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
