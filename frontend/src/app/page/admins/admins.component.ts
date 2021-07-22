@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Admin } from 'src/app/model/admin';
 import { AdminService } from 'src/app/service/admin.service';
+import { ITableColumn, ConfigService } from 'src/app/service/config.service';
 
 @Component({
   selector: 'app-admins',
@@ -10,9 +11,11 @@ import { AdminService } from 'src/app/service/admin.service';
 })
 export class AdminsComponent implements OnInit {
 
-  admins$: Observable<Admin[]> = this.adminService.getAll();
+  tableColumns: ITableColumn[] = this.config.adminColumns;
+  list$: Observable<Admin[]> = this.adminService.getAll();
 
   constructor(
+    private config: ConfigService,
     private adminService: AdminService,
   ) { }
 
@@ -20,8 +23,12 @@ export class AdminsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  passwordToStars(password: string): string {
-    return '*'.repeat(password.length);
+  // tslint:disable-next-line: no-empty
+  onClickEdit(admin: Admin): void {
+  }
+
+  // tslint:disable-next-line: no-empty
+  onClickDelete(admin: Admin): void {
   }
 
 }

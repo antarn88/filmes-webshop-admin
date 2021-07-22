@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Customer } from 'src/app/model/customer';
 import { Delivery } from 'src/app/model/delivery';
-import { Product } from 'src/app/model/product';
-import { CustomerService } from 'src/app/service/customer.service';
+import { ITableColumn, ConfigService } from 'src/app/service/config.service';
 import { DeliveryService } from 'src/app/service/delivery.service';
-import { ProductService } from 'src/app/service/product.service';
 
 @Component({
   selector: 'app-deliveries',
@@ -14,27 +11,24 @@ import { ProductService } from 'src/app/service/product.service';
 })
 export class DeliveriesComponent implements OnInit {
 
-  deliveries$: Observable<Delivery[]> = this.deliveryService.getAll();
-  customers: Customer[] = [];
-  products: Product[] = [];
+  tableColumns: ITableColumn[] = [];
+  list$: Observable<Delivery[]> = this.deliveryService.getAll();
 
   constructor(
-    private deliveryService: DeliveryService,
-    public customerService: CustomerService,
-    public productService: ProductService,
+    public config: ConfigService,
+    public deliveryService: DeliveryService,
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    this.customers = await this.customerService.getAll().toPromise();
-    this.products = await this.productService.getAll().toPromise();
+  ngOnInit(): void {
+    this.tableColumns = this.config.deliveryColumns;
   }
 
-  customerIdToCustomer(customerID: string): Customer {
-    return this.customers.find(customer => customer._id === customerID) || new Customer();
+  // tslint:disable-next-line: no-empty
+  onClickEdit(delivery: Delivery): void {
   }
 
-  productIdToProduct(productID: string): Product {
-    return this.products.find(product => product._id === productID) || new Product();
+  // tslint:disable-next-line: no-empty
+  onClickDelete(delivery: Delivery): void {
   }
 
 }

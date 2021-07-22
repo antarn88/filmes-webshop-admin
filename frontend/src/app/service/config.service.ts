@@ -10,7 +10,6 @@ export interface ITableColumn {
   key?: string;
   merged?: boolean;
   hidden?: boolean;
-  strLength?: any;
   pipes?: any[];
   pipeArgs?: any[][];
   htmlOutput?: any;
@@ -89,6 +88,99 @@ export class ConfigService {
     },
   ];
 
+  deliveryColumns: ITableColumn[] = [
+    { key: "_id", title: "", hidden: true },
+    {
+      key: "customerID", title: "Vásárló neve", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerName']]
+    },
+    {
+      key: "customerID", title: "Vásárló email címe", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerEmail']]
+    },
+    {
+      key: "customerID", title: "Vásárló lakcíme", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerAddress']]
+    },
+    {
+      key: "products", title: "Termékek", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['products']], htmlOutput: ConfigService.lineBreaker
+    },
+    { key: "note", title: "Megjegyzés" },
+  ];
+
+  billColumns: ITableColumn[] = [
+    { key: "_id", title: "", hidden: true },
+    {
+      key: "customerID", title: "Vásárló neve", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerName']]
+    },
+    {
+      key: "customerID", title: "Vásárló email címe", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerEmail']]
+    },
+    {
+      key: "customerID", title: "Vásárló lakcíme", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['customerAddress']]
+    },
+    {
+      key: "products", title: "Termékek", pipes: [
+        new IdTransformPipe(
+          this.customerService,
+          this.productService,
+          this.billService)
+      ],
+      pipeArgs: [['products']], htmlOutput: ConfigService.lineBreaker
+    },
+    {
+      key: "sum", title: "Összeg", pipes: [new CurrencyPipe('hu-HU')],
+      pipeArgs: [['HUF', 'symbol', '3.0']]
+    },
+    { key: "paid", title: "Fizetett", htmlOutput: ConfigService.activeOrInactiveSign },
+  ];
+
+  adminColumns: ITableColumn[] = [
+    { key: "_id", title: "", hidden: true },
+    { key: "username", title: "Felhasználónév" },
+    { key: "password", title: "Jelszó", htmlOutput: ConfigService.passwordToStars },
+    { key: "active", title: "Státusz", htmlOutput: ConfigService.activeOrInactiveSign },
+  ];
+
   customerColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
     { title: "Név", merged: true, htmlOutput: ConfigService.mergeNames },
@@ -125,6 +217,10 @@ export class ConfigService {
   static mergeNames(row: any): string {
     if (row) return `${row.lastName} ${row.firstName}`;
     return '';
+  };
+
+  static passwordToStars(password: string): string {
+    return '*'.repeat(password.length);
   };
 
 }

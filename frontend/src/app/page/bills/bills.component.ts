@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bill } from 'src/app/model/bill';
-import { Customer } from 'src/app/model/customer';
-import { Product } from 'src/app/model/product';
 import { BillService } from 'src/app/service/bill.service';
-import { CustomerService } from 'src/app/service/customer.service';
-import { ProductService } from 'src/app/service/product.service';
+import { ITableColumn, ConfigService } from 'src/app/service/config.service';
 
 @Component({
   selector: 'app-bills',
@@ -14,27 +11,24 @@ import { ProductService } from 'src/app/service/product.service';
 })
 export class BillsComponent implements OnInit {
 
-  bills$: Observable<Bill[]> = this.billService.getAll();
-  customers: Customer[] = [];
-  products: Product[] = [];
+  tableColumns: ITableColumn[] = [];
+  list$: Observable<Bill[]> = this.billService.getAll();
 
   constructor(
-    private billService: BillService,
-    public customerService: CustomerService,
-    public productService: ProductService,
+    public config: ConfigService,
+    public billService: BillService,
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    this.customers = await this.customerService.getAll().toPromise();
-    this.products = await this.productService.getAll().toPromise();
+  ngOnInit(): void {
+    this.tableColumns = this.config.billColumns;
   }
 
-  customerIdToCustomer(customerID: string): Customer {
-    return this.customers.find(customer => customer._id === customerID) || new Customer();
+  // tslint:disable-next-line: no-empty
+  onClickEdit(bill: Bill): void {
   }
 
-  productIdToProduct(productID: string): Product {
-    return this.products.find(product => product._id === productID) || new Product();
+  // tslint:disable-next-line: no-empty
+  onClickDelete(bill: Bill): void {
   }
 
 }

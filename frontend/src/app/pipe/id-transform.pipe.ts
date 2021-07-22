@@ -27,6 +27,11 @@ export class IdTransformPipe implements PipeTransform {
       const customer = customers.find(c => c._id === inputData);
       return `${customer?.email}`;
     }
+    else if (expectedValue === 'customerAddress') {
+      const customers = await this.customerService.getAll().toPromise();
+      const customer = customers.find(c => c._id === inputData);
+      return `${customer?.address}`;
+    }
     else if (expectedValue === 'products') {
       const outputProductNames = [];
       const products = await this.productService.getAll().toPromise();
