@@ -1,3 +1,33 @@
 <h1 class="my-5 text-center">Rendelések</h1>
-<app-data-table [tableColumns]="tableColumns" [list$]="list$" tableTitle="Rendelések listája"
-  (editClick)="onClickEdit($event)" (deleteClick)="onClickDelete($event)"></app-data-table>
+
+<div class="view-mode d-flex justify-content-evenly mb-4">
+  <button class="btn btn-secondary" (click)="onClickGridView()">Rácsnézet</button>
+  <button class="btn btn-secondary" (click)="onClickListView()">Listanézet</button>
+</div>
+
+<div class="grid-view" *ngIf="view === 'grid'" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()">
+  <div class="card-container d-flex flex-wrap justify-content-around">
+    <div class="card mb-5" style="width: 18rem;"
+      *ngFor="let order of list$ | async | slice:config.startItem:config.endItem">
+      <div class="card-body bg-light">
+        <h5 class="card-title">{{ order.customerID | idTransform:'customerName' | async }} rendelése</h5>
+        <h6 class="card-text text-center mb-3">{{ order.customerID | idTransform:'customerEmail' | async }}</h6>
+        <p class="card-text text-center"><b>{{ order.products.length }}</b> rendelt termék</p>
+        <p class="card-text text-center"><b>{{ order.billID | idTransform:'sum' | async }} Ft</b> értékben</p>
+        <p class="card-text text-center">Megjegyzés:<br><b>{{ order.note }}</b></p>
+        <p class="card-text text-center"><span
+            [innerHTML]="activeOrInactiveSign(order.billID | idTransform:'status' | async)"></span></p>
+      </div>
+      <div class="card-footer d-flex justify-content-evenly">
+        <button class="btn btn-secondary" (click)="onClickEdit(order)">Szerkeszt</button>
+        <button class="btn btn-danger" (click)="onClickDelete(order)">Töröl</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="list-view" *ngIf="view === 'list'">
+  <app-data-table [tableColumns]="tableColumns" [list$]="list$" tableTitle="Rendelések listája"
+    (editClick)="onClickEdit($event)" (deleteClick)="onClickDelete($event)"></app-data-table>
+</div>

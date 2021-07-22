@@ -13,6 +13,7 @@ export class OrdersComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Order[]> = this.orderService.getAll();
+  view: string = 'grid';
 
   constructor(
     public config: ConfigService,
@@ -29,5 +30,25 @@ export class OrdersComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(order: Order): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
+  }
+
+  activeOrInactiveSign(value: boolean): string {
+    return `Státusz: ${ConfigService.activeOrInactiveSign(value)}`;
   }
 }

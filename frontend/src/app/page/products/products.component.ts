@@ -13,9 +13,10 @@ export class ProductsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.productColumns;
   list$: Observable<Product[]> = this.productService.getAll();
+  view: string = 'grid';
 
   constructor(
-    private config: ConfigService,
+    public config: ConfigService,
     private productService: ProductService,
   ) { }
 
@@ -29,6 +30,26 @@ export class ProductsComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(product: Product): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
+  }
+
+  activeOrInactiveSign(value: boolean): string {
+    return `Aktív: ${ConfigService.activeOrInactiveSign(value)}`;
   }
 
 }
