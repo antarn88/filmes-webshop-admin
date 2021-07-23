@@ -1,0 +1,64 @@
+<div class="row">
+  <div *ngIf="product" class="col-6 offset-3 mt-5">
+    <form #productForm="ngForm" (ngSubmit)="setProductToDatabase(product)">
+
+      <div class="form-group mb-3">
+        <label for="_id">Termékazonosító:</label>
+        <input name="_id" [(ngModel)]="product._id" type="text" class="form-control" id="_id" required readonly>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="name">Név:</label>
+        <input name="name" [(ngModel)]="product.name" type="text" class="form-control" id="name" required>
+        <small [hidden]="productForm.controls.name?.valid || productForm.controls.name?.pristine" class="error-message">
+          Hiányzó név!
+        </small>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="description">Leírás:</label>
+        <textarea name="description" [(ngModel)]="product.description" type="text" class="form-control" id="description"
+          rows="5" required></textarea>
+        <small [hidden]="productForm.controls.description?.valid || productForm.controls.description?.pristine"
+          class="error-message">
+          Hiányzó leírás!
+        </small>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="price">Ár:</label>
+        <div class="input-group">
+          <input name="price" [(ngModel)]="product.price" type="number" class="form-control" id="price" min="1"
+            required>
+          <div class="input-group-append"><span class="input-group-text">Ft</span></div>
+        </div>
+        <small [hidden]="productForm.controls.price?.valid || productForm.controls.price?.pristine"
+          class="error-message">
+          Hiányzó ár!</small>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="photo">Kép:</label>
+        <input name="photo" [(ngModel)]="product.photo" type="text" class="form-control" id="photo" required>
+        <small [hidden]="productForm.controls.photo?.valid || productForm.controls.photo?.pristine"
+          class="error-message">
+          Hiányzó kép!
+        </small>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="active"
+          [(ngModel)]="product.active">
+        <label class="form-check-label" for="flexCheckDefault">Aktív</label>
+      </div>
+
+      <div class="d-flex mt-3 mb-5 justify-content-evenly">
+        <button class="btn btn-secondary" type="button" (click)="backToTheProductList()"><i
+            class="fa fa-arrow-left"></i> Vissza</button>
+        <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary"><i class="fa fa-save"></i>
+          Mentés</button>
+      </div>
+
+    </form>
+  </div>
+</div>

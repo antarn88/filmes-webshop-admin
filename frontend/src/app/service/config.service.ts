@@ -25,6 +25,9 @@ export class ConfigService {
   endItem: number = 30;
   scrollSize: number = 10;
 
+  // View for pages
+  view: string = 'grid';
+
   productColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
     { key: "name", title: "Név" },

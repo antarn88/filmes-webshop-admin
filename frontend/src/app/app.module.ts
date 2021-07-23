@@ -8,6 +8,7 @@ import localeHu from '@angular/common/locales/hu';
 registerLocaleData(localeHu);
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +25,12 @@ import { AdminsComponent } from './page/admins/admins.component';
 import { DataTableComponent } from './widget/data-table/data-table.component';
 import { IdTransformPipe } from './pipe/id-transform.pipe';
 import { XPipePipe } from './pipe/x-pipe.pipe';
+import { ProductEditorComponent } from './page/product-editor/product-editor.component';
+import { AdminEditorComponent } from './page/admin-editor/admin-editor.component';
+import { BillEditorComponent } from './page/bill-editor/bill-editor.component';
+import { CustomerEditorComponent } from './page/customer-editor/customer-editor.component';
+import { DeliveryEditorComponent } from './page/delivery-editor/delivery-editor.component';
+import { OrderEditorComponent } from './page/order-editor/order-editor.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +47,12 @@ import { XPipePipe } from './pipe/x-pipe.pipe';
     DataTableComponent,
     IdTransformPipe,
     XPipePipe,
+    ProductEditorComponent,
+    AdminEditorComponent,
+    BillEditorComponent,
+    CustomerEditorComponent,
+    DeliveryEditorComponent,
+    OrderEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +60,8 @@ import { XPipePipe } from './pipe/x-pipe.pipe';
     HttpClientModule,
     FormsModule,
     InfiniteScrollModule,
-    ToastrModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

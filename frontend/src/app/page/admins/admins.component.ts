@@ -13,7 +13,6 @@ export class AdminsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.adminColumns;
   list$: Observable<Admin[]> = this.adminService.getAll();
-  view: string = 'grid';
 
   constructor(
     public config: ConfigService,
@@ -33,13 +32,13 @@ export class AdminsComponent implements OnInit {
   }
 
   onClickListView(): void {
-    this.view = 'list'
+    this.config.view = 'list'
     this.config.startItem = 0;
     this.config.endItem = 30;
   }
 
   onClickGridView(): void {
-    this.view = 'grid';
+    this.config.view = 'grid';
     this.config.startItem = 0;
     this.config.endItem = 30;
   }

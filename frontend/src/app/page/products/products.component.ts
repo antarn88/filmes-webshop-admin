@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/model/product';
 import { ConfigService, ITableColumn } from 'src/app/service/config.service';
@@ -13,15 +14,16 @@ export class ProductsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.productColumns;
   list$: Observable<Product[]> = this.productService.getAll();
-  view: string = 'grid';
+  state$: any;
 
   constructor(
     public config: ConfigService,
     private productService: ProductService,
+    public activatedRoute: ActivatedRoute
   ) { }
 
   // tslint:disable-next-line: no-empty
-  ngOnInit(): void {
+  ngOnInit(): void{
   }
 
   // tslint:disable-next-line: no-empty
@@ -33,15 +35,11 @@ export class ProductsComponent implements OnInit {
   }
 
   onClickListView(): void {
-    this.view = 'list'
-    this.config.startItem = 0;
-    this.config.endItem = 30;
+    this.config.view = 'list'
   }
 
   onClickGridView(): void {
-    this.view = 'grid';
-    this.config.startItem = 0;
-    this.config.endItem = 30;
+    this.config.view = 'grid';
   }
 
   onScroll(): void {

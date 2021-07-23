@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ConfigService, ITableColumn } from 'src/app/service/config.service';
 
@@ -17,6 +18,7 @@ export class DataTableComponent<T extends { [propname: string]: any }> implement
 
   constructor(
     public config: ConfigService,
+    private router: Router,
   ) { }
 
   // tslint:disable-next-line: no-empty
@@ -27,7 +29,8 @@ export class DataTableComponent<T extends { [propname: string]: any }> implement
     this.config.endItem += this.config.scrollSize;
   }
   onClickEdit(entity: any): void {
-    this.editClick.emit(entity);
+    this.config.view = 'list';
+    this.router.navigateByUrl(`${this.router.url}/${entity._id}`, { state: { view: 'list' } });
   }
 
   onClickDelete(entity: any): void {

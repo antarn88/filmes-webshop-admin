@@ -5,8 +5,8 @@
   <button class="btn btn-secondary" (click)="onClickListView()">Listanézet</button>
 </div>
 
-<div class="grid-view" *ngIf="view === 'grid'" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
-  (scrolled)="onScroll()">
+<div class="grid-view" *ngIf="config.view === 'grid'" infiniteScroll [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
   <div class="card-container d-flex flex-wrap justify-content-around">
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let delivery of list$ | async | slice:config.startItem:config.endItem">
@@ -18,14 +18,14 @@
         <p class="card-text text-center">Megjegyzés:<br><b>{{ delivery.note }}</b></p>
       </div>
       <div class="card-footer d-flex justify-content-evenly">
-        <button class="btn btn-secondary" (click)="onClickEdit(delivery)">Szerkeszt</button>
+        <button class="btn btn-secondary" routerLink="/deliveries/{{ delivery._id }}">Szerkeszt</button>
         <button class="btn btn-danger" (click)="onClickDelete(delivery)">Töröl</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="list-view" *ngIf="view === 'list'">
+<div class="list-view" *ngIf="config.view === 'list'">
   <app-data-table [tableColumns]="tableColumns" [list$]="list$" tableTitle="Kiszállítások listája"
     (editClick)="onClickEdit($event)" (deleteClick)="onClickDelete($event)"></app-data-table>
 </div>

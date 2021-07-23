@@ -13,7 +13,6 @@ export class BillsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Bill[]> = this.billService.getAll();
-  view: string = 'grid';
 
   constructor(
     public config: ConfigService,
@@ -33,15 +32,11 @@ export class BillsComponent implements OnInit {
   }
 
   onClickListView(): void {
-    this.view = 'list'
-    this.config.startItem = 0;
-    this.config.endItem = 30;
+    this.config.view = 'list'
   }
 
   onClickGridView(): void {
-    this.view = 'grid';
-    this.config.startItem = 0;
-    this.config.endItem = 30;
+    this.config.view = 'grid';
   }
 
   onScroll(): void {
