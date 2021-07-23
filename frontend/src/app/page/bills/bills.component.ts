@@ -13,6 +13,7 @@ export class BillsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Bill[]> = this.billService.getAll();
+  view: string = 'grid';
 
   constructor(
     public config: ConfigService,
@@ -29,6 +30,26 @@ export class BillsComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(bill: Bill): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
+  }
+
+  activeOrInactiveSign(value: boolean): string {
+    return `Fizetett: ${ConfigService.activeOrInactiveSign(value)}`;
   }
 
 }

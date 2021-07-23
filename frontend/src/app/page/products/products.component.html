@@ -12,7 +12,7 @@
       *ngFor="let product of list$ | async | slice:config.startItem:config.endItem">
       <img src="{{ product.photo }}" class="card-img-top" alt="Product">
       <div class="card-body">
-        <h5 class="card-title">{{ product.name }}</h5>
+        <h5 class="card-title text-center">{{ product.name }}</h5>
         <p class="card-text text-center">{{ product.description }}</p>
         <p class="card-text text-center"><b>{{ product.price }} Ft</b></p>
         <p class="card-text text-center"><b [innerHTML]="activeOrInactiveSign(product.active)"></b></p>

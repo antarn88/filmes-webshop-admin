@@ -13,10 +13,11 @@ export class CustomersComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Customer[]> = this.customerService.getAll();
+  view: string = 'grid';
 
   constructor(
-    private config: ConfigService,
-    private customerService: CustomerService,
+    public config: ConfigService,
+    public customerService: CustomerService,
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +30,26 @@ export class CustomersComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(customer: Customer): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
+  }
+
+  activeOrInactiveSign(value: boolean): string {
+    return `Státusz: ${ConfigService.activeOrInactiveSign(value)}`;
   }
 
 }

@@ -13,9 +13,10 @@ export class AdminsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.adminColumns;
   list$: Observable<Admin[]> = this.adminService.getAll();
+  view: string = 'grid';
 
   constructor(
-    private config: ConfigService,
+    public config: ConfigService,
     private adminService: AdminService,
   ) { }
 
@@ -29,6 +30,30 @@ export class AdminsComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(admin: Admin): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
+  }
+
+  activeOrInactiveSign(value: boolean): string {
+    return `Státusz: ${ConfigService.activeOrInactiveSign(value)}`;
+  }
+
+  passwordHider(password: string): string {
+    return '*'.repeat(password.length);
   }
 
 }

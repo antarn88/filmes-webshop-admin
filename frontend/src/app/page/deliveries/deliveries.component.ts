@@ -13,6 +13,7 @@ export class DeliveriesComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Delivery[]> = this.deliveryService.getAll();
+  view: string = 'grid';
 
   constructor(
     public config: ConfigService,
@@ -29,6 +30,22 @@ export class DeliveriesComponent implements OnInit {
 
   // tslint:disable-next-line: no-empty
   onClickDelete(delivery: Delivery): void {
+  }
+
+  onClickListView(): void {
+    this.view = 'list'
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onClickGridView(): void {
+    this.view = 'grid';
+    this.config.startItem = 0;
+    this.config.endItem = 30;
+  }
+
+  onScroll(): void {
+    this.config.endItem += this.config.scrollSize;
   }
 
 }
