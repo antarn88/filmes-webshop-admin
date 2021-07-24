@@ -1,1 +1,42 @@
-<p>admin-editor works!</p>
+<div class="row">
+  <div *ngIf="admin" class="col-6 offset-3 mt-5">
+    <form #adminForm="ngForm" (ngSubmit)="setAdminToDatabase(admin)">
+
+      <div class="form-group mb-3">
+        <label for="_id">Adminazonosító:</label>
+        <input name="_id" [(ngModel)]="admin._id" type="text" class="form-control" id="_id" required readonly>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="username">Felhasználónév:</label>
+        <input name="username" [(ngModel)]="admin.username" type="text" class="form-control" id="username" required>
+        <small [hidden]="adminForm.controls.username?.valid || adminForm.controls.username?.pristine"
+          class="error-message">
+          Hiányzó felhasználónév!
+        </small>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="password">Jelszó:</label>
+        <input name="password" [(ngModel)]="admin.password" type="password" class="form-control" id="password" required>
+        <small [hidden]="adminForm.controls.password?.valid || adminForm.controls.password?.pristine"
+          class="error-message">
+          Hiányzó jelszó!
+        </small>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="active" [(ngModel)]="admin.active">
+        <label class="form-check-label" for="flexCheckDefault">Státusz</label>
+      </div>
+
+      <div class="d-flex mt-3 mb-5 justify-content-evenly">
+        <button class="btn btn-secondary" type="button" (click)="backToTheAdminList()"><i class="fa fa-arrow-left"></i>
+          Vissza</button>
+        <button [disabled]="adminForm.invalid" type="submit" class="btn btn-primary"><i class="fa fa-save"></i>
+          Mentés</button>
+      </div>
+
+    </form>
+  </div>
+</div>

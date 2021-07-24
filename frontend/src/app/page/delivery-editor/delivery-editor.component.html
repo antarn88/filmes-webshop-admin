@@ -1,1 +1,50 @@
-<p>delivery-editor works!</p>
+<div class="row">
+  <div *ngIf="delivery" class="col-6 offset-3 mt-5">
+    <form #deliveryForm="ngForm" (ngSubmit)="setDeliveryToDatabase(delivery)">
+
+      <div class="form-group mb-3">
+        <label for="_id">Kiszállításazonosító:</label>
+        <input name="_id" [(ngModel)]="delivery._id" type="text" class="form-control" id="_id" required readonly>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="name">Vásárló neve:</label>
+        <input name="name" [value]="delivery.customerID | idTransform:'customerName' | async" type="text"
+          class="form-control" id="name" required readonly>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="email">Vásárló email címe:</label>
+        <input name="email" [value]="delivery.customerID | idTransform:'customerEmail' | async" type="email"
+          class="form-control" id="email" required readonly>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="address">Vásárló lakcíme:</label>
+        <input name="address" [value]="delivery.customerID | idTransform:'customerAddress' | async" type="text"
+          class="form-control" id="address" required readonly>
+      </div>
+
+      <label for="products">Rendelt termékek:</label>
+      <ul>
+        <li *ngFor="let product of delivery.products"> {{ product | idTransform: 'product' | async}}</li>
+      </ul>
+
+      <div class="form-group mb-3">
+        <label for="note">Megjegyzés:</label>
+        <input name="note" [(ngModel)]="delivery.note" type="text" class="form-control" id="note" required>
+        <small [hidden]="deliveryForm.controls.note?.valid || deliveryForm.controls.note?.pristine"
+          class="error-message">Hiányzó megjegyzés!</small>
+      </div>
+
+      <div class="d-flex mt-3 mb-5 justify-content-evenly">
+        <button class="btn btn-secondary" type="button" (click)="backToTheDeliveryList()"><i
+            class="fa fa-arrow-left"></i>
+          Vissza</button>
+        <button [disabled]="deliveryForm.invalid" type="submit" class="btn btn-primary"><i class="fa fa-save"></i>
+          Mentés</button>
+      </div>
+
+    </form>
+  </div>
+</div>
