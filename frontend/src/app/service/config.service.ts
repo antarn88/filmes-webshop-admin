@@ -223,7 +223,10 @@ export class ConfigService {
   };
 
   static passwordToStars(password: string): string {
-    return '*'.repeat(password.length);
+    if (password) {
+      return '*'.repeat(password.length);
+    }
+    return '';
   };
 
 }

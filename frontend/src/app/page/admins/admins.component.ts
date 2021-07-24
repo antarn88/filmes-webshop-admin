@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Admin } from 'src/app/model/admin';
 import { AdminService } from 'src/app/service/admin.service';
 import { ITableColumn, ConfigService } from 'src/app/service/config.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admins',
@@ -17,6 +18,7 @@ export class AdminsComponent implements OnInit {
   constructor(
     public config: ConfigService,
     private adminService: AdminService,
+    private toastr: ToastrService,
   ) { }
 
   // tslint:disable-next-line: no-empty
@@ -27,8 +29,20 @@ export class AdminsComponent implements OnInit {
   onClickEdit(admin: Admin): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickDelete(admin: Admin): void {
+  async onClickDelete(admin: Admin): Promise<void> {
+    if (confirm(`Biztosan törölni szeretnéd az admint?`)) {
+      try {
+        await this.adminService.delete(admin._id).toPromise();
+        this.list$ = this.adminService.getAll();
+        this.toastr.success('Sikeresen törölted az admint!', 'Siker!', {
+          timeOut: 3000,
+        });
+      } catch {
+        this.toastr.error('Hiba az admin törlésekor!', 'Hiba!', {
+          timeOut: 3000,
+        })
+      }
+    }
   }
 
   onClickListView(): void {

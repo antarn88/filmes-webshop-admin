@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from 'src/app/model/product';
 import { ConfigService, ITableColumn } from 'src/app/service/config.service';
 import { ProductService } from 'src/app/service/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products',
@@ -19,7 +20,8 @@ export class ProductsComponent implements OnInit {
   constructor(
     public config: ConfigService,
     private productService: ProductService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
   ) { }
 
   // tslint:disable-next-line: no-empty
@@ -30,8 +32,20 @@ export class ProductsComponent implements OnInit {
   onClickEdit(product: Product): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickDelete(product: Product): void {
+  async onClickDelete(product: Product): Promise<void> {
+    if (confirm(`Biztosan törölni szeretnéd a terméket?`)) {
+      try {
+        await this.productService.delete(product._id).toPromise();
+        this.list$ = this.productService.getAll();
+        this.toastr.success('Sikeresen törölted a terméket!', 'Siker!', {
+          timeOut: 3000,
+        });
+      } catch {
+        this.toastr.error('Hiba a termék törlésekor!', 'Hiba!', {
+          timeOut: 3000,
+        })
+      }
+    }
   }
 
   onClickListView(): void {

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Bill } from 'src/app/model/bill';
 import { BillService } from 'src/app/service/bill.service';
 import { ITableColumn, ConfigService } from 'src/app/service/config.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bills',
@@ -17,6 +18,7 @@ export class BillsComponent implements OnInit {
   constructor(
     public config: ConfigService,
     public billService: BillService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -27,8 +29,20 @@ export class BillsComponent implements OnInit {
   onClickEdit(bill: Bill): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickDelete(bill: Bill): void {
+  async onClickDelete(bill: Bill): Promise<void> {
+    if (confirm(`Biztosan törölni szeretnéd a számlát?`)) {
+      try {
+        await this.billService.delete(bill._id).toPromise();
+        this.list$ = this.billService.getAll();
+        this.toastr.success('Sikeresen törölted a számlát!', 'Siker!', {
+          timeOut: 3000,
+        });
+      } catch {
+        this.toastr.error('Hiba a számla törlésekor!', 'Hiba!', {
+          timeOut: 3000,
+        })
+      }
+    }
   }
 
   onClickListView(): void {

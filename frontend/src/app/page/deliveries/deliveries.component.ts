@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Delivery } from 'src/app/model/delivery';
 import { ITableColumn, ConfigService } from 'src/app/service/config.service';
 import { DeliveryService } from 'src/app/service/delivery.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-deliveries',
@@ -17,6 +18,7 @@ export class DeliveriesComponent implements OnInit {
   constructor(
     public config: ConfigService,
     public deliveryService: DeliveryService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -27,8 +29,20 @@ export class DeliveriesComponent implements OnInit {
   onClickEdit(delivery: Delivery): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickDelete(delivery: Delivery): void {
+  async onClickDelete(delivery: Delivery): Promise<void> {
+    if (confirm(`Biztosan törölni szeretnéd a kiszállítást?`)) {
+      try {
+        await this.deliveryService.delete(delivery._id).toPromise();
+        this.list$ = this.deliveryService.getAll();
+        this.toastr.success('Sikeresen törölted a kiszállítást!', 'Siker!', {
+          timeOut: 3000,
+        });
+      } catch {
+        this.toastr.error('Hiba a kiszállítás törlésekor!', 'Hiba!', {
+          timeOut: 3000,
+        })
+      }
+    }
   }
 
   onClickListView(): void {

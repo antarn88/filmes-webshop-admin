@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Customer } from 'src/app/model/customer';
 import { ConfigService, ITableColumn } from 'src/app/service/config.service';
 import { CustomerService } from 'src/app/service/customer.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customers',
@@ -17,6 +18,7 @@ export class CustomersComponent implements OnInit {
   constructor(
     public config: ConfigService,
     public customerService: CustomerService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -27,8 +29,20 @@ export class CustomersComponent implements OnInit {
   onClickEdit(customer: Customer): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickDelete(customer: Customer): void {
+  async onClickDelete(customer: Customer): Promise<void> {
+    if (confirm(`Biztosan törölni szeretnéd a vásárlót?`)) {
+      try {
+        await this.customerService.delete(customer._id).toPromise();
+        this.list$ = this.customerService.getAll();
+        this.toastr.success('Sikeresen törölted a vásárlót!', 'Siker!', {
+          timeOut: 3000,
+        });
+      } catch {
+        this.toastr.error('Hiba a vásárló törlésekor!', 'Hiba!', {
+          timeOut: 3000,
+        })
+      }
+    }
   }
 
   onClickListView(): void {
