@@ -1,1 +1,53 @@
-<h1 class="my-5 text-center">Főoldal</h1>
+<h1 class="my-5 text-center">Üdvözöllek a Filmes webshop admin oldalán!</h1>
+
+<div class="row d-flex justify-content-around">
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/products">
+    <div class="card-header">Termékek</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Termékek aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ productList.length }} terméket!</p>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/orders">
+    <div class="card-header">Rendelések</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Rendelések aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ orderList.length }} rendelést!</p>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/customers">
+    <div class="card-header">Vásárlók</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Vásárlók aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ customerList.length }} vásárlót!</p>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/deliveries">
+    <div class="card-header">Kiszállítások</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Kiszállítások aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ deliveryList.length }} kiszállítást!</p>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/bills">
+    <div class="card-header">Számlák</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Számlák aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ billList.length }} számlát!</p>
+    </div>
+  </div>
+
+  <div class="card text-white bg-dark mb-5" style="max-width: 18rem;" routerLink="/admins">
+    <div class="card-header">Adminok</div>
+    <div class="card-body">
+      <h5 class="card-title text-center">Adminok aloldal</h5>
+      <p class="card-text text-center">Tekintsd meg mind a(z) {{ adminList.length }} admint!</p>
+    </div>
+  </div>
+
+</div>
