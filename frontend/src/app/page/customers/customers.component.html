@@ -5,6 +5,10 @@
   <button class="btn btn-secondary" (click)="onClickListView()">Listanézet</button>
 </div>
 
+<div class="row mb-4">
+  <button class="btn btn-primary btn-block" routerLink="/customers/0">Új vásárló</button>
+</div>
+
 <div class="grid-view" *ngIf="config.view === 'grid'" infiniteScroll [infiniteScrollDistance]="2"
   [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
   <div class="card-container d-flex flex-wrap justify-content-around">

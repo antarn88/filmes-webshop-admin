@@ -1,10 +1,10 @@
 <div class="row">
   <div *ngIf="admin" class="col-6 offset-3 mt-5">
-    <form #adminForm="ngForm" (ngSubmit)="setAdminToDatabase(admin)">
+    <form #adminForm="ngForm" (ngSubmit)="setAdminToDatabase(admin, adminForm)">
 
       <div class="form-group mb-3">
         <label for="_id">Adminazonosító:</label>
-        <input name="_id" [(ngModel)]="admin._id" type="text" class="form-control" id="_id" required readonly>
+        <input name="_id" [(ngModel)]="admin._id" type="text" class="form-control" id="_id" readonly>
       </div>
 
       <div class="form-group mb-3">

@@ -1,3 +1,4 @@
+// tslint:disable: no-bitwise
 import { CurrencyPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { IdTransformPipe } from '../pipe/id-transform.pipe';
@@ -228,5 +229,12 @@ export class ConfigService {
     }
     return '';
   };
+
+  objectIDGenerator(): string {
+    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
+      return (Math.random() * 16 | 0).toString(16);
+    }).toLowerCase();
+  }
 
 }
