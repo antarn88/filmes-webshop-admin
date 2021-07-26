@@ -8418,17 +8418,17 @@
       "paid": true
     }
   ],
-  "admins": [
+  "users": [
     {
       "_id": "60f2e20b7a1574cd78537eb8",
-      "username": "rendszergazda",
-      "password": "admin",
+      "email": "rendszergazda@kft.hu",
+      "password": "$2a$10$xWYQTKUoDsIfDza0krB9eew1GKUlIQcF5SqXdo2.Zjs/7QnFy3v02",
       "active": true
     },
     {
       "_id": "60f2e20b7a1574cd78537ebb",
-      "username": "zsozsesz172",
-      "password": "secretpass",
+      "email": "zsozsesz172@kft.hu",
+      "password": "$2a$10$5mYVFg4fsdeQ1m4ZcYA/s.lIwr/Yr0V/dvpV.6Oto5gL2OtvY7iQq",
       "active": true
     }
   ]

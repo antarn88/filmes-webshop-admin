@@ -15,8 +15,8 @@
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let admin of list$ | async | slice:config.startItem:config.endItem">
       <div class="card-body">
-        <h5 class="card-title text-center">Felhasználónév:</h5>
-        <p class="text-center">{{ admin.username }}</p>
+        <h5 class="card-title text-center">Email:</h5>
+        <p class="text-center">{{ admin.email }}</p>
         <h5 class="card-text text-center">Jelszó:</h5>
         <p class="text-center">{{ passwordHider(admin.password) }}</p>
         <p class="card-text text-center"><b [innerHTML]="activeOrInactiveSign(admin.active)"></b></p>

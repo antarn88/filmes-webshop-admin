@@ -1,6 +1,7 @@
 export class Admin {
   _id: string = '';
-  username: string = '';
+  email: string = '';
   password: string = '';
   active: boolean = true;
+  token?: string = '';
 }

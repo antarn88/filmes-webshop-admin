@@ -8,11 +8,11 @@
       </div>
 
       <div class="form-group mb-3">
-        <label for="username">Felhasználónév:</label>
-        <input name="username" [(ngModel)]="admin.username" type="text" class="form-control" id="username" required>
-        <small [hidden]="adminForm.controls.username?.valid || adminForm.controls.username?.pristine"
+        <label for="email">Email:</label>
+        <input name="email" [(ngModel)]="admin.email" type="email" class="form-control" id="email" required>
+        <small [hidden]="adminForm.controls.email?.valid || adminForm.controls.email?.pristine"
           class="error-message">
-          Hiányzó felhasználónév!
+          Hiányzó email!
         </small>
       </div>
 

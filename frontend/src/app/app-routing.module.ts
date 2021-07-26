@@ -8,7 +8,9 @@ import { CustomerEditorComponent } from './page/customer-editor/customer-editor.
 import { CustomersComponent } from './page/customers/customers.component';
 import { DeliveriesComponent } from './page/deliveries/deliveries.component';
 import { DeliveryEditorComponent } from './page/delivery-editor/delivery-editor.component';
+import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 import { HomeComponent } from './page/home/home.component';
+import { LoginComponent } from './page/login/login.component';
 import { OrderEditorComponent } from './page/order-editor/order-editor.component';
 import { OrdersComponent } from './page/orders/orders.component';
 import { ProductEditorComponent } from './page/product-editor/product-editor.component';
@@ -68,8 +70,16 @@ const routes: Routes = [
     component: AdminEditorComponent
   },
   {
+    path: 'forbidden',
+    component: ForbiddenComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '**',
-    redirectTo: '/'
+    redirectTo: ''
   },
 ];
 

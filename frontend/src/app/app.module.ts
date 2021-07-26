@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeHu from '@angular/common/locales/hu';
@@ -31,6 +31,8 @@ import { BillEditorComponent } from './page/bill-editor/bill-editor.component';
 import { CustomerEditorComponent } from './page/customer-editor/customer-editor.component';
 import { DeliveryEditorComponent } from './page/delivery-editor/delivery-editor.component';
 import { OrderEditorComponent } from './page/order-editor/order-editor.component';
+import { ForbiddenComponent } from './page/forbidden/forbidden.component';
+import { JwtInterceptorService } from './service/jwt-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { OrderEditorComponent } from './page/order-editor/order-editor.component
     CustomerEditorComponent,
     DeliveryEditorComponent,
     OrderEditorComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,9 @@ import { OrderEditorComponent } from './page/order-editor/order-editor.component
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
