@@ -4,4 +4,5 @@ export class Admin {
   password: string = '';
   active: boolean = true;
   token?: string = '';
+  role?: string = '';
 }

@@ -180,8 +180,9 @@ export class ConfigService {
 
   adminColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
-    { key: "username", title: "Felhasználónév" },
-    { key: "password", title: "Jelszó", htmlOutput: ConfigService.passwordToStars },
+    { key: "email", title: "Email" },
+    { key: "role", title: "Szerepkör azonosító" },
+    { key: "password", title: "", htmlOutput: ConfigService.passwordToStars, hidden: true },
     { key: "active", title: "Státusz", htmlOutput: ConfigService.activeOrInactiveSign },
   ];
 

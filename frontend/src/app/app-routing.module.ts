@@ -15,59 +15,113 @@ import { OrderEditorComponent } from './page/order-editor/order-editor.component
 import { OrdersComponent } from './page/orders/orders.component';
 import { ProductEditorComponent } from './page/product-editor/product-editor.component';
 import { ProductsComponent } from './page/products/products.component';
+import { AuthGuardService } from './service/auth-guard.service';
+import { RoleGuardService } from './service/role-guard.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'products',
-    component: ProductsComponent
+    component: ProductsComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'products/:_id',
-    component: ProductEditorComponent
+    component: ProductEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'orders',
-    component: OrdersComponent
+    component: OrdersComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'orders/:_id',
-    component: OrderEditorComponent
+    component: OrderEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'customers',
-    component: CustomersComponent
+    component: CustomersComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'customers/:_id',
-    component: CustomerEditorComponent
+    component: CustomerEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'deliveries',
-    component: DeliveriesComponent
+    component: DeliveriesComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'deliveries/:_id',
-    component: DeliveryEditorComponent
+    component: DeliveryEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'bills',
-    component: BillsComponent
+    component: BillsComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'bills/:_id',
-    component: BillEditorComponent
+    component: BillEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'admins',
-    component: AdminsComponent
+    component: AdminsComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'admins/:_id',
-    component: AdminEditorComponent
+    component: AdminEditorComponent,
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3
+    }
   },
   {
     path: 'forbidden',
