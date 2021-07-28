@@ -33,6 +33,8 @@ import { DeliveryEditorComponent } from './page/delivery-editor/delivery-editor.
 import { OrderEditorComponent } from './page/order-editor/order-editor.component';
 import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 import { JwtInterceptorService } from './service/jwt-interceptor.service';
+import { FooterComponent } from './widget/footer/footer.component';
+import { ModalComponent } from './widget/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { JwtInterceptorService } from './service/jwt-interceptor.service';
     DeliveryEditorComponent,
     OrderEditorComponent,
     ForbiddenComponent,
+    FooterComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
