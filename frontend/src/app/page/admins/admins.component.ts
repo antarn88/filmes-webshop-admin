@@ -14,6 +14,9 @@ export class AdminsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.adminColumns;
   list$: Observable<Admin[]> = this.adminService.getAll();
+  modalTitle: string = '';
+  modalText: string = '';
+  currentAdminForDelete: Admin = new Admin();
 
   constructor(
     public config: ConfigService,
@@ -25,14 +28,10 @@ export class AdminsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickEdit(admin: Admin): void {
-  }
-
-  async onClickDelete(admin: Admin): Promise<void> {
-    if (confirm(`Biztosan törölni szeretnéd az admint?`)) {
+  async deleteAdminAction(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
       try {
-        await this.adminService.delete(admin._id).toPromise();
+        await this.adminService.delete(this.currentAdminForDelete._id).toPromise();
         this.list$ = this.adminService.getAll();
         this.toastr.success('Sikeresen törölted az admint!', 'Siker!', {
           timeOut: 3000,
@@ -43,6 +42,12 @@ export class AdminsComponent implements OnInit {
         })
       }
     }
+  }
+
+  async onClickDelete(admin: Admin): Promise<void> {
+    this.modalTitle = 'Törlés';
+    this.modalText = `Biztosan törölni szeretnéd a(z) <b>${admin.email}</b> e-mail címmel rendelkező admint?`;
+    this.currentAdminForDelete = admin;
   }
 
   onClickListView(): void {

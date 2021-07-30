@@ -14,6 +14,9 @@ export class CustomersComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Customer[]> = this.customerService.getAll();
+  modalTitle: string = '';
+  modalText: string = '';
+  currentCustomerForDelete: Customer = new Customer();
 
   constructor(
     public config: ConfigService,
@@ -25,14 +28,10 @@ export class CustomersComponent implements OnInit {
     this.tableColumns = this.config.customerColumns;
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickEdit(customer: Customer): void {
-  }
-
-  async onClickDelete(customer: Customer): Promise<void> {
-    if (confirm(`Biztosan törölni szeretnéd a vásárlót?`)) {
+  async deleteCustomerAction(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
       try {
-        await this.customerService.delete(customer._id).toPromise();
+        await this.customerService.delete(this.currentCustomerForDelete._id).toPromise();
         this.list$ = this.customerService.getAll();
         this.toastr.success('Sikeresen törölted a vásárlót!', 'Siker!', {
           timeOut: 3000,
@@ -43,6 +42,12 @@ export class CustomersComponent implements OnInit {
         })
       }
     }
+  }
+
+  async onClickDelete(customer: Customer): Promise<void> {
+    this.modalTitle = 'Törlés';
+    this.modalText = `Biztosan törölni szeretnéd <b>${customer.lastName} ${customer.firstName}</b> vásárlót?`;
+    this.currentCustomerForDelete = customer;
   }
 
   onClickListView(): void {

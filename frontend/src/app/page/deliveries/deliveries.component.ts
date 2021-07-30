@@ -14,6 +14,9 @@ export class DeliveriesComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Delivery[]> = this.deliveryService.getAll();
+  modalTitle: string = '';
+  modalText: string = '';
+  currentDeliveryForDelete: Delivery = new Delivery();
 
   constructor(
     public config: ConfigService,
@@ -25,14 +28,10 @@ export class DeliveriesComponent implements OnInit {
     this.tableColumns = this.config.deliveryColumns;
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickEdit(delivery: Delivery): void {
-  }
-
-  async onClickDelete(delivery: Delivery): Promise<void> {
-    if (confirm(`Biztosan törölni szeretnéd a kiszállítást?`)) {
+  async deleteDeliveryAction(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
       try {
-        await this.deliveryService.delete(delivery._id).toPromise();
+        await this.deliveryService.delete(this.currentDeliveryForDelete._id).toPromise();
         this.list$ = this.deliveryService.getAll();
         this.toastr.success('Sikeresen törölted a kiszállítást!', 'Siker!', {
           timeOut: 3000,
@@ -43,6 +42,12 @@ export class DeliveriesComponent implements OnInit {
         })
       }
     }
+  }
+
+  async onClickDelete(delivery: Delivery): Promise<void> {
+    this.modalTitle = 'Törlés';
+    this.modalText = `Biztosan törölni szeretnéd a kiszállítást?`;
+    this.currentDeliveryForDelete = delivery;
   }
 
   onClickListView(): void {

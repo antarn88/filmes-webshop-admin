@@ -22,7 +22,8 @@
       </div>
       <div class="card-footer d-flex justify-content-evenly">
         <button class="btn btn-secondary" routerLink="/customers/{{ customer._id }}">Szerkeszt</button>
-        <button class="btn btn-danger" (click)="onClickDelete(customer)">Töröl</button>
+        <button class="btn btn-danger" (click)="onClickDelete(customer)" data-bs-toggle="modal"
+          data-bs-target="#modal">Töröl</button>
       </div>
     </div>
   </div>
@@ -30,5 +31,7 @@
 
 <div class="list-view" *ngIf="config.view === 'list'">
   <app-data-table [tableColumns]="tableColumns" [list$]="list$" tableTitle="Vásárlók listája"
-    (editClick)="onClickEdit($event)" (deleteClick)="onClickDelete($event)"></app-data-table>
+    (deleteClick)="onClickDelete($event)"></app-data-table>
 </div>
+
+<app-modal [modalText]="modalText" [modalTitle]="modalTitle" (onClickAction)="deleteCustomerAction($event)"></app-modal>

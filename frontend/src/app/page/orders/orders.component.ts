@@ -14,6 +14,9 @@ export class OrdersComponent implements OnInit {
 
   tableColumns: ITableColumn[] = [];
   list$: Observable<Order[]> = this.orderService.getAll();
+  modalTitle: string = '';
+  modalText: string = '';
+  currentOrderForDelete: Order = new Order();
 
   constructor(
     public config: ConfigService,
@@ -25,14 +28,10 @@ export class OrdersComponent implements OnInit {
     this.tableColumns = this.config.orderColumns;
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickEdit(order: Order): void {
-  }
-
-  async onClickDelete(order: Order): Promise<void> {
-    if (confirm(`Biztosan törölni szeretnéd a rendelést?`)) {
+  async deleteOrderAction(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
       try {
-        await this.orderService.delete(order._id).toPromise();
+        await this.orderService.delete(this.currentOrderForDelete._id).toPromise();
         this.list$ = this.orderService.getAll();
         this.toastr.success('Sikeresen törölted a rendelést!', 'Siker!', {
           timeOut: 3000,
@@ -43,6 +42,12 @@ export class OrdersComponent implements OnInit {
         })
       }
     }
+  }
+
+  async onClickDelete(order: Order): Promise<void> {
+    this.modalTitle = 'Törlés';
+    this.modalText = `Biztosan törölni szeretnéd a rendelést?`;
+    this.currentOrderForDelete = order;
   }
 
   onClickListView(): void {

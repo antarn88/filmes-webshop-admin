@@ -13,7 +13,6 @@ export class DataTableComponent<T extends { [propname: string]: any }> implement
   @Input() tableColumns: ITableColumn[] = [];
   @Input() list$: Observable<T[]> | null = null;
   @Input() tableTitle: string = '';
-  @Output() editClick: EventEmitter<any> = new EventEmitter();
   @Output() deleteClick: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -29,8 +28,7 @@ export class DataTableComponent<T extends { [propname: string]: any }> implement
     this.config.endItem += this.config.scrollSize;
   }
   onClickEdit(entity: any): void {
-    this.config.view = 'list';
-    this.router.navigateByUrl(`${this.router.url}/${entity._id}`, { state: { view: 'list' } });
+    this.router.navigateByUrl(`${this.router.url}/${entity._id}`);
   }
 
   onClickDelete(entity: any): void {

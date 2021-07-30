@@ -15,7 +15,9 @@ export class ProductsComponent implements OnInit {
 
   tableColumns: ITableColumn[] = this.config.productColumns;
   list$: Observable<Product[]> = this.productService.getAll();
-  state$: any;
+  modalTitle: string = '';
+  modalText: string = '';
+  currentProductForDelete: Product = new Product();
 
   constructor(
     public config: ConfigService,
@@ -25,17 +27,13 @@ export class ProductsComponent implements OnInit {
   ) { }
 
   // tslint:disable-next-line: no-empty
-  ngOnInit(): void{
+  ngOnInit(): void {
   }
 
-  // tslint:disable-next-line: no-empty
-  onClickEdit(product: Product): void {
-  }
-
-  async onClickDelete(product: Product): Promise<void> {
-    if (confirm(`Biztosan törölni szeretnéd a terméket?`)) {
+  async deleteProductAction(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
       try {
-        await this.productService.delete(product._id).toPromise();
+        await this.productService.delete(this.currentProductForDelete._id).toPromise();
         this.list$ = this.productService.getAll();
         this.toastr.success('Sikeresen törölted a terméket!', 'Siker!', {
           timeOut: 3000,
@@ -46,6 +44,12 @@ export class ProductsComponent implements OnInit {
         })
       }
     }
+  }
+
+  async onClickDelete(product: Product): Promise<void> {
+    this.modalTitle = 'Törlés';
+    this.modalText = `Biztosan törölni szeretnéd a(z) <b>${product.name}</b> című terméket?`;
+    this.currentProductForDelete = product;
   }
 
   onClickListView(): void {
