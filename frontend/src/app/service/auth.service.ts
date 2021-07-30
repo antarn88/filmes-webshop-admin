@@ -20,7 +20,13 @@ export class AuthService {
     private router: Router,
     private adminService: AdminService,
     private http: HttpClient
-  ) { }
+  ) {
+    if (localStorage.currentAdmin) {
+      const admin: Admin = JSON.parse(localStorage.currentAdmin);
+      this.lastToken = admin.token || '';
+      this.currentAdminSubject.next(admin);
+    }
+  }
 
   get currentAdminValue(): Admin {
     return this.currentAdminSubject.value;
@@ -54,6 +60,7 @@ export class AuthService {
   }
 
   logout() {
+    this.lastToken = '';
     localStorage.removeItem('currentAdmin');
     this.currentAdminSubject.next(null);
     this.router.navigate(['login']);
