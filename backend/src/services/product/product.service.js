@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Product = require('../../models/product.model');
 
 exports.create = (productData) => {
@@ -9,7 +10,7 @@ exports.findAll = (filterRule = {}) => Product.find(filterRule);
 
 exports.findOne = (id) => Product.findById(id);
 
-exports.update = (id, updatedData) => Product.findByIdAndUpdate(id, updatedData, {
+exports.update = (updatedData) => Product.findByIdAndUpdate(updatedData._id, updatedData, {
   new: true, useFindAndModify: false,
 });
 
