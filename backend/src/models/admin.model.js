@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = mongoose.Schema({
+const AdminSchema = mongoose.Schema({
   email: String,
   password: String,
   role: String,
@@ -10,4 +10,4 @@ const UserSchema = mongoose.Schema({
   versionKey: false,
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

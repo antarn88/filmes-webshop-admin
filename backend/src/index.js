@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
-const express = require('express');
+require('dotenv').config();
+const config = require('config');
+const logger = require('./config/logger');
+const app = require('./server');
 
-const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.get('/', (_req, res) => {
-  res.send('Vizsgaremek backend server');
-});
+if (!config.has('database')) {
+  logger.error('No database config found.');
+  process.exit();
+}
 
-app.listen(port, () => {
-  console.log(`Backend server listening at: http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`Backend server listening at http://localhost:${port}`));

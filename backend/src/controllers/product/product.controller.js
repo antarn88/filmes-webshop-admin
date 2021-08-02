@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const createError = require('http-errors');
 const productService = require('../../services/product/product.service');
 
@@ -35,29 +36,31 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
+  const { id } = req.params;
+
   const {
-    _id, name, description, price, photo, active,
+    name, description, price, photo, active,
   } = req.body;
 
-  if (!_id) {
-    return next(new createError.BadRequest('Missing product ID!'));
+  const oldData = await productService.findOne(id);
+
+  if (!oldData) {
+    return next(new createError.NotFound('Product is not found!'));
   }
 
-  const oldData = await productService.findOne(_id);
-
   const updatedData = {
-    _id,
+    _id: id,
     name: name || oldData.name,
     description: description || oldData.description,
     price: Number(price) || oldData.price,
     photo: photo || oldData.photo,
-    active: active || oldData.active,
+    active: active === undefined ? oldData.active : active,
   };
 
   let updatedEntity = {};
 
   try {
-    updatedEntity = await productService.update(updatedData);
+    updatedEntity = await productService.update(updatedData._id, updatedData);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

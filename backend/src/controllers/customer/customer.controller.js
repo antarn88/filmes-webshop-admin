@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const createError = require('http-errors');
 const customerService = require('../../services/customer/customer.service');
 
@@ -10,7 +11,7 @@ exports.findAll = async (_req, res) => {
 exports.findOne = async (req, res, next) => {
   const customer = await customerService.findOne(req.params.id);
   if (!customer) {
-    return next(new createError.NotFound('Customer is not found'));
+    return next(new createError.NotFound('Customer is not found!'));
   }
   res.json(customer);
   return customer;
@@ -35,29 +36,31 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
+  const { id } = req.params;
+
   const {
-    _id, firstName, lastName, email, address, active,
+    firstName, lastName, email, address, active,
   } = req.body;
 
-  if (!_id) {
-    return next(new createError.BadRequest('Missing ID!'));
+  const oldData = await customerService.findOne(id);
+
+  if (!oldData) {
+    return next(new createError.NotFound('Customer is not found!'));
   }
 
-  const oldData = await customerService.findOne(_id);
-
   const updatedData = {
-    _id,
+    _id: id,
     firstName: firstName || oldData.firstName,
     lastName: lastName || oldData.lastName,
     email: email || oldData.email,
     address: address || oldData.address,
-    active: active || oldData.active,
+    active: active === undefined ? oldData.active : active,
   };
 
   let updatedEntity = {};
 
   try {
-    updatedEntity = await customerService.update(updatedData);
+    updatedEntity = await customerService.update(updatedData._id, updatedData);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

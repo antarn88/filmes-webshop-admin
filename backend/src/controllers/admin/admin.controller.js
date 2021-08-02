@@ -1,14 +1,15 @@
+/* eslint-disable no-underscore-dangle */
 const createError = require('http-errors');
-const userService = require('../../services/user/user.service');
+const adminService = require('../../services/admin/admin.service');
 
 exports.findAll = async (_req, res) => {
-  const users = await userService.findAll();
+  const users = await adminService.findAll();
   res.json(users);
   return users;
 };
 
 exports.findOne = async (req, res, next) => {
-  const user = await userService.findOne(req.params.id);
+  const user = await adminService.findOne(req.params.id);
   if (!user) {
     return next(new createError.NotFound('User is not found'));
   }
@@ -28,35 +29,37 @@ exports.create = async (req, res, next) => {
     email, password, role, active,
   };
 
-  const newUserFromDatabase = await userService.create(newUserFromReqBody);
+  const newUserFromDatabase = await adminService.create(newUserFromReqBody);
   res.status(201);
   res.json(newUserFromDatabase);
   return newUserFromDatabase;
 };
 
 exports.update = async (req, res, next) => {
+  const { id } = req.params;
+
   const {
-    _id, email, password, role, active,
+    email, password, role, active,
   } = req.body;
 
-  if (!_id) {
-    return next(new createError.BadRequest('Missing product ID!'));
+  const oldData = await adminService.findOne(id);
+
+  if (!oldData) {
+    return next(new createError.NotFound('Admin is not found!'));
   }
 
-  const oldData = await userService.findOne(_id);
-
   const updatedData = {
-    _id,
+    _id: id,
     email: email || oldData.email,
     password: password || oldData.password,
     role: role || oldData.role,
-    active: active || oldData.active,
+    active: active === undefined ? oldData.active : active,
   };
 
   let updatedEntity = {};
 
   try {
-    updatedEntity = await userService.update(updatedData);
+    updatedEntity = await adminService.update(updatedData._id, updatedData);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
@@ -67,7 +70,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await userService.delete(req.params.id);
+    await adminService.delete(req.params.id);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

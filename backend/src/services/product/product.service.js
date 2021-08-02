@@ -10,7 +10,7 @@ exports.findAll = (filterRule = {}) => Product.find(filterRule);
 
 exports.findOne = (id) => Product.findById(id);
 
-exports.update = (updatedData) => Product.findByIdAndUpdate(updatedData._id, updatedData, {
+exports.update = (id, updatedData) => Product.findByIdAndUpdate(id, updatedData, {
   new: true, useFindAndModify: false,
 });
 
