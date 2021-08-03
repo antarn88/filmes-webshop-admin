@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const config = require('config');
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
@@ -26,6 +27,8 @@ mongoose.Promise = global.Promise;
 app.use(morgan('tiny', { stream: logger.stream }));
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use('/products', require('./routes/product.routes'));
 app.use('/customers', require('./routes/customer.routes'));
