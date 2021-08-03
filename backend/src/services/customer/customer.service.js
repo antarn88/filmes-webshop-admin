@@ -1,16 +1,6 @@
 const Customer = require('../../models/customer.model');
+const baseService = require('../base/base.service');
 
-exports.create = (customerData) => {
-  const customer = new Customer(customerData);
-  return customer.save();
-};
+const customerService = baseService(Customer);
 
-exports.findAll = (filterRule = {}) => Customer.find(filterRule);
-
-exports.findOne = (id) => Customer.findById(id);
-
-exports.update = (id, updatedData) => Customer.findByIdAndUpdate(id, updatedData, {
-  new: true, useFindAndModify: false,
-});
-
-exports.delete = (id) => Customer.findByIdAndDelete(id);
+module.exports = customerService;

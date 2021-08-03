@@ -1,16 +1,6 @@
-const User = require('../../models/admin.model');
+const Admin = require('../../models/admin.model');
+const baseService = require('../base/base.service');
 
-exports.create = (userData) => {
-  const user = new User(userData);
-  return user.save();
-};
+const adminService = baseService(Admin);
 
-exports.findAll = (filterRule = {}) => User.find(filterRule);
-
-exports.findOne = (id) => User.findById(id);
-
-exports.update = (id, updatedData) => User.findByIdAndUpdate(id, updatedData, {
-  new: true, useFindAndModify: false,
-});
-
-exports.delete = (id) => User.findByIdAndDelete(id);
+module.exports = adminService;
