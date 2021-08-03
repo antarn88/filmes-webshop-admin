@@ -30,6 +30,8 @@ app.use(express.json());
 
 app.use(cors());
 
+// Endpoints
+app.use('/login', require('./routes/login.routes'));
 app.use('/products', require('./routes/product.routes'));
 app.use('/customers', require('./routes/customer.routes'));
 app.use('/admins', require('./routes/admin.routes'));
