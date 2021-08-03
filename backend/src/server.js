@@ -33,6 +33,7 @@ app.use(cors());
 app.use('/products', require('./routes/product.routes'));
 app.use('/customers', require('./routes/customer.routes'));
 app.use('/admins', require('./routes/admin.routes'));
+app.use('/bills', require('./routes/bill.routes'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
