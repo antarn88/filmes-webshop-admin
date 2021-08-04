@@ -31,26 +31,26 @@ exports.create = async (req, res, next) => {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
-  let newUserFromDatabase;
+  let newAdminFromDatabase;
 
   bcrypt.hash(password, saltRounds, async (err, hash) => {
     if (err) {
       return next(new createError.InternalServerError('Error during password encryption!'));
     }
 
-    const newUserFromReqBody = {
+    const newAdminFromReqBody = {
       email,
       password: hash,
       active,
     };
 
-    newUserFromDatabase = await adminService.create(newUserFromReqBody);
+    newAdminFromDatabase = await adminService.create(newAdminFromReqBody);
     res.status(201);
-    res.json(newUserFromDatabase);
-    return newUserFromDatabase;
+    res.json(newAdminFromDatabase);
+    return newAdminFromDatabase;
   });
 
-  return newUserFromDatabase;
+  return newAdminFromDatabase;
 };
 
 exports.update = async (req, res, next) => {

@@ -1,66 +1,66 @@
 /* eslint-disable no-underscore-dangle */
 const createError = require('http-errors');
-const billService = require('../../services/bill/bill.service');
+const orderService = require('../../services/order/order.service');
 
 exports.findAll = async (_req, res) => {
-  const bills = await billService.findAll();
-  res.json(bills);
-  return bills;
+  const orders = await orderService.findAll();
+  res.json(orders);
+  return orders;
 };
 
 exports.findOne = async (req, res, next) => {
-  const bill = await billService.findOne(req.params.id);
-  if (!bill) {
-    return next(new createError.NotFound('Bill is not found!'));
+  const order = await orderService.findOne(req.params.id);
+  if (!order) {
+    return next(new createError.NotFound('Order is not found!'));
   }
-  res.json(bill);
-  return bill;
+  res.json(order);
+  return order;
 };
 
 exports.create = async (req, res, next) => {
   const {
-    customer, products, sum, paid,
+    customer, bill, products, note,
   } = req.body;
 
-  if (!customer || !products || !sum || !paid) {
+  if (!customer || !bill || !products) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
-  const newBillFromReqBody = {
-    customer, products, sum, paid,
+  const newOrderFromReqBody = {
+    customer, bill, products, note,
   };
 
-  const newBillFromDatabase = await billService.create(newBillFromReqBody);
+  const newOrderFromDatabase = await orderService.create(newOrderFromReqBody);
   res.status(201);
-  res.json(newBillFromDatabase);
-  return newBillFromDatabase;
+  res.json(newOrderFromDatabase);
+  return newOrderFromDatabase;
 };
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
 
   const {
-    customer, products, sum, paid,
+    customer, bill, products, note,
   } = req.body;
 
-  const oldData = await billService.findOne(id);
+  const oldData = await orderService.findOne(id);
 
   if (!oldData) {
-    return next(new createError.NotFound('Bill is not found!'));
+    return next(new createError.NotFound('Order is not found!'));
   }
 
   const updatedData = {
     _id: id,
     customer: customer === undefined ? oldData.customer : customer,
+    bill: bill === undefined ? oldData.bill : bill,
     products: products === undefined ? oldData.products : products,
-    sum: sum === undefined ? oldData.sum : sum,
-    paid: paid === undefined ? oldData.paid : paid,
+    note: note === undefined ? oldData.note : note,
   };
 
   let updatedEntity = {};
 
   try {
-    updatedEntity = await billService.update(updatedData._id, updatedData);
+    updatedEntity = await orderService.update(updatedData._id, updatedData);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
@@ -70,7 +70,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await billService.delete(req.params.id);
+    await orderService.delete(req.params.id);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

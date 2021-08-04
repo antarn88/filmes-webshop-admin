@@ -42,6 +42,7 @@ app.use('/products', require('./routes/product.routes'));
 app.use('/customers', require('./routes/customer.routes'));
 app.use('/admins', require('./routes/admin.routes'));
 app.use('/bills', require('./routes/bill.routes'));
+app.use('/orders', require('./routes/order.routes'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
