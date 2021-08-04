@@ -18,8 +18,7 @@ const OrderSchema = mongoose.Schema({
   },
   note: {
     type: String,
-    required: false,
-    default: '',
+    required: true,
   },
 }, {
   timestamps: false,

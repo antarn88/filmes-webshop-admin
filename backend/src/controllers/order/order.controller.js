@@ -22,7 +22,7 @@ exports.create = async (req, res, next) => {
     customer, bill, products, note,
   } = req.body;
 
-  if (!customer || !bill || !products) {
+  if (!customer || !bill || !products || !note) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
