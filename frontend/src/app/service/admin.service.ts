@@ -13,7 +13,7 @@ export class AdminService extends BaseService<Admin> {
     public http: HttpClient,
   ) {
     super(http);
-    this.entity = 'users';
+    this.entity = 'admins';
   }
 
   query(queryString: string): Observable<Admin | Admin[]> {
