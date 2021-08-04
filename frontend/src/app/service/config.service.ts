@@ -1,6 +1,7 @@
 // tslint:disable: no-bitwise
 import { CurrencyPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Product } from '../model/product';
 import { IdTransformPipe } from '../pipe/id-transform.pipe';
 import { BillService } from './bill.service';
 import { CustomerService } from './customer.service';
@@ -9,7 +10,7 @@ import { ProductService } from './product.service';
 export interface ITableColumn {
   title?: string;
   key?: string;
-  merged?: boolean;
+  customized?: boolean;
   hidden?: boolean;
   pipes?: any[];
   pipeArgs?: any[][];
@@ -135,42 +136,10 @@ export class ConfigService {
 
   billColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
-    {
-      key: "customerID", title: "Vásárló neve", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerName']]
-    },
-    {
-      key: "customerID", title: "Vásárló email címe", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerEmail']]
-    },
-    {
-      key: "customerID", title: "Vásárló lakcíme", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerAddress']]
-    },
-    {
-      key: "products", title: "Termékek", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['products']], htmlOutput: ConfigService.lineBreaker
-    },
+    { title: "Vásárló neve", customized: true, htmlOutput: ConfigService.setCustomerNameFromObject },
+    { title: "Vásárló email címe", customized: true, htmlOutput: ConfigService.setCustomerEmailFromObject },
+    { title: "Vásárló lakcíme", customized: true, htmlOutput: ConfigService.setCustomerAddressFromObject },
+    { title: "Termékek", customized: true, htmlOutput: ConfigService.setOrderedProductsFromObject },
     {
       key: "sum", title: "Összeg", pipes: [new CurrencyPipe('hu-HU')],
       pipeArgs: [['HUF', 'symbol', '3.0']]
@@ -187,7 +156,7 @@ export class ConfigService {
 
   customerColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
-    { title: "Név", merged: true, htmlOutput: ConfigService.mergeNames },
+    { title: "Név", customized: true, htmlOutput: ConfigService.mergeNames },
     { key: "email", title: "Email" },
     { key: "address", title: "Lakcím" },
     { key: "active", title: "Státusz", htmlOutput: ConfigService.activeOrInactiveSign },
@@ -223,12 +192,40 @@ export class ConfigService {
     return '';
   };
 
+  static setCustomerNameFromObject(row: any): string {
+    if (row) return `${row.customer.lastName} ${row.customer.firstName}`;
+    return '';
+  };
+
+  static setCustomerEmailFromObject(row: any): string {
+    if (row) return `${row.customer.email}`;
+    return '';
+  };
+
+  static setCustomerAddressFromObject(row: any): string {
+    if (row) return `${row.customer.address}`;
+    return '';
+  };
+
+  static setOrderedProductsFromObject(row: any): string {
+    if (row) {
+      const productStringArray: string[] = [];
+      row.products.forEach((product: Product) => productStringArray.push(product.name));
+      return productStringArray.join('<br>');
+    }
+    return '';
+  };
+
   static passwordToStars(password: string): string {
     if (password) {
       return '*'.repeat(password.length);
     }
     return '';
   };
+
+  static entityToString(entity: any) {
+    return '' + entity;
+  }
 
   objectIDGenerator(): string {
     const timestamp = (new Date().getTime() / 1000 | 0).toString(16);

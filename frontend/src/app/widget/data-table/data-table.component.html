@@ -17,14 +17,14 @@
               <span *ngIf="!col.htmlOutput && col.key != undefined; else elseBlock">
                 {{ row[col.key] | xPipe:col.pipes:col.pipeArgs | async }}
               </span>
-              <ng-template #elseBlock>
-                <span *ngIf="col.key">
-                  <span [innerHTML]="col.htmlOutput(row[col.key] | xPipe:col.pipes:col.pipeArgs | async)"></span>
-                </span>
-              </ng-template>
-              <span *ngIf="!col.key && col.merged"
-                [innerHTML]="col.htmlOutput(row | xPipe:col.pipes:col.pipeArgs | async)">{{ row }}</span>
             </span>
+            <ng-template #elseBlock>
+              <span *ngIf="col.key">
+                <span [innerHTML]="col.htmlOutput(row[col.key] | xPipe:col.pipes:col.pipeArgs | async)"></span>
+              </span>
+            </ng-template>
+            <span *ngIf="!col.key && col.customized"
+              [innerHTML]="col.htmlOutput(row | xPipe:col.pipes:col.pipeArgs | async)">{{ row }}</span>
           </td>
           <td>
             <div class="btn-group">
