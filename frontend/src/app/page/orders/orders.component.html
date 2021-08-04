@@ -16,13 +16,13 @@
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let order of list$ | async | slice:config.startItem:config.endItem">
       <div class="card-body bg-light">
-        <h5 class="card-title">{{ order.customerID | idTransform:'customerName' | async }} rendelése</h5>
-        <h6 class="card-text text-center mb-3">{{ order.customerID | idTransform:'customerEmail' | async }}</h6>
+        <h5 class="card-title">{{ order.customer.lastName }} {{ order.customer.firstName }} rendelése</h5>
+        <h6 class="card-text text-center mb-3">{{ order.customer.email }}</h6>
         <p class="card-text text-center"><b>{{ order.products.length }}</b> rendelt termék</p>
-        <p class="card-text text-center"><b>{{ order.billID | idTransform:'sum' | async }} Ft</b> értékben</p>
+        <p class="card-text text-center"><b>{{ order.bill.sum }} Ft</b> értékben</p>
         <p class="card-text text-center">Megjegyzés:<br><b>{{ order.note }}</b></p>
         <p class="card-text text-center"><span
-            [innerHTML]="activeOrInactiveSign(order.billID | idTransform:'status' | async)"></span></p>
+            [innerHTML]="activeOrInactiveSign(order.bill.paid)"></span></p>
       </div>
       <div class="card-footer d-flex justify-content-evenly">
         <button class="btn btn-secondary" routerLink="/orders/{{ order._id }}">Szerkeszt</button>

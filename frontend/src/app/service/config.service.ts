@@ -45,52 +45,12 @@ export class ConfigService {
 
   orderColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
-    {
-      key: "customerID", title: "Vásárló neve", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerName']]
-    },
-    {
-      key: "customerID", title: "Vásárló email címe", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerEmail']]
-    },
-    {
-      key: "products", title: "Termékek", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['products']], htmlOutput: ConfigService.lineBreaker
-    },
-    {
-      key: "billID", title: "Végösszeg", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService
-        ), new CurrencyPipe('hu-HU')],
-      pipeArgs: [['sum'], ['HUF', 'symbol', '3.0']]
-    },
+    { title: "Vásárló neve", customized: true, htmlOutput: ConfigService.setCustomerNameFromObject },
+    { title: "Vásárló email címe", customized: true, htmlOutput: ConfigService.setCustomerEmailFromObject },
+    { title: "Termékek", customized: true, htmlOutput: ConfigService.setOrderedProductsFromObject },
+    { title: "Végösszeg", customized: true, htmlOutput: ConfigService.setTotalSum },
     { key: "note", title: "Megjegyzés" },
-    {
-      key: "billID", title: "Státusz", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService
-        )],
-      pipeArgs: [['status']], htmlOutput: ConfigService.activeOrInactiveSign
-    },
+    { title: "Státusz", customized: true, htmlOutput: ConfigService.setStatus },
   ];
 
   deliveryColumns: ITableColumn[] = [
@@ -215,6 +175,16 @@ export class ConfigService {
     }
     return '';
   };
+
+  static setTotalSum(row: any): string {
+    if (row) return `${Number(row.bill.sum).toLocaleString('HU-hu').toString()} Ft`;
+    return '';
+  }
+
+  static setStatus(row: any): string {
+    if (row) return ConfigService.activeOrInactiveSign(row.bill.paid);
+    return '';
+  }
 
   static passwordToStars(password: string): string {
     if (password) {
