@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 const config = require('config');
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -8,6 +10,9 @@ const mongoose = require('mongoose');
 const logger = require('./config/logger');
 
 const app = express();
+
+// Authentication.
+const authHandler = require('./auth/authHandler');
 
 mongoose.Promise = global.Promise;
 
@@ -31,7 +36,9 @@ app.use(express.json());
 app.use(cors());
 
 // Endpoints
-app.use('/login', require('./routes/login.routes'));
+app.post('/login', authHandler.login);
+
+// app.use('/login', require('./routes/login.routes'));
 app.use('/products', require('./routes/product.routes'));
 app.use('/customers', require('./routes/customer.routes'));
 app.use('/admins', require('./routes/admin.routes'));
@@ -45,7 +52,7 @@ app.use((err, req, res, next) => {
     res.status(err.statusCode);
   }
   logger.error(err.message);
-  res.send('An error occurred.');
+  res.send(err.message);
 });
 
 module.exports = app;
