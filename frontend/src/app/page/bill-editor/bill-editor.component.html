@@ -9,25 +9,25 @@
 
       <div class="form-group mb-3">
         <label for="name">Vásárló neve:</label>
-        <input name="name" [value]="bill.customerID | idTransform:'customerName' | async" type="text"
+        <input name="name" value="{{bill.customer.lastName}} {{bill.customer.firstName}}" type="text"
           class="form-control" id="name" required readonly>
       </div>
 
       <div class="form-group mb-3">
         <label for="email">Vásárló email címe:</label>
-        <input name="email" [value]="bill.customerID | idTransform:'customerEmail' | async" type="email"
+        <input name="email" [value]="bill.customer.email" type="email"
           class="form-control" id="email" required readonly>
       </div>
 
       <div class="form-group mb-3">
         <label for="address">Vásárló lakcíme:</label>
-        <input name="address" [value]="bill.customerID | idTransform:'customerAddress' | async" type="text"
+        <input name="address" [value]="bill.customer.address" type="text"
           class="form-control" id="address" required readonly>
       </div>
 
       <label for="products">Termékek:</label>
       <ul>
-        <li *ngFor="let product of bill.products"> {{ product | idTransform: 'product' | async}}</li>
+        <li *ngFor="let product of bill.products">{{ product.name }}</li>
       </ul>
 
       <div class="form-group mb-3">

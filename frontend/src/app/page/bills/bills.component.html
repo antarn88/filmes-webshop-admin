@@ -17,9 +17,9 @@
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let bill of list$ | async | slice:config.startItem:config.endItem">
       <div class="card-body bg-light">
-        <h5 class="card-title text-center">{{ bill.customerID | idTransform:'customerName' | async }}</h5>
-        <p class="card-text text-center mb-3">{{ bill.customerID | idTransform:'customerEmail' | async }}</p>
-        <h6 class="card-text text-center mb-3">{{ bill.customerID | idTransform:'customerAddress' | async }}</h6>
+        <h5 class="card-title text-center">{{ bill.customer.lastName }} {{ bill.customer.firstName }}</h5>
+        <p class="card-text text-center mb-3">{{ bill.customer.email }}</p>
+        <h6 class="card-text text-center mb-3">{{ bill.customer.address }}</h6>
         <p class="card-text text-center"><b>{{ bill.products.length }}</b> megrendelt termék</p>
         <p class="card-text text-center"><b>{{ bill.sum }} Ft</b></p>
         <p class="card-text text-center" [innerHTML]="activeOrInactiveSign(bill.paid)"></p>

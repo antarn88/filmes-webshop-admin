@@ -18,8 +18,6 @@
       <div class="card-body">
         <h5 class="card-title text-center">Email:</h5>
         <p class="text-center">{{ admin.email }}</p>
-        <h6 class="card-title text-center">Szerepkör azonosító:</h6>
-        <p class="text-center"><b>{{ admin.role }}</b></p>
         <p class="card-text text-center"><b [innerHTML]="activeOrInactiveSign(admin.active)"></b></p>
       </div>
       <div class="card-footer d-flex justify-content-evenly">
