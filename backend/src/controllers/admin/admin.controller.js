@@ -24,28 +24,10 @@ exports.findOne = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   const {
-    email, password, role, active,
+    email, password, active,
   } = req.body;
 
-  if (!email || !password || !role || !active) {
-    return next(new createError.BadRequest('Missing properties!'));
-  }
-  const newUserFromReqBody = {
-    email, password, role, active,
-  };
-
-  const newUserFromDatabase = await adminService.create(newUserFromReqBody);
-  res.status(201);
-  res.json(newUserFromDatabase);
-  return newUserFromDatabase;
-};
-
-exports.createWithRegister = async (req, res, next) => {
-  const {
-    email, password, role, active,
-  } = req.body;
-
-  if (!email || !password) {
+  if (!email || !password || !active) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
@@ -59,8 +41,7 @@ exports.createWithRegister = async (req, res, next) => {
     const newUserFromReqBody = {
       email,
       password: hash,
-      role: role === undefined ? '3' : role,
-      active: active === undefined ? true : active,
+      active,
     };
 
     newUserFromDatabase = await adminService.create(newUserFromReqBody);
@@ -76,7 +57,7 @@ exports.update = async (req, res, next) => {
   const { id } = req.params;
 
   const {
-    email, password, role, active,
+    email, password, active,
   } = req.body;
 
   const oldData = await adminService.findOne(id);
@@ -85,24 +66,28 @@ exports.update = async (req, res, next) => {
     return next(new createError.NotFound('Admin is not found!'));
   }
 
-  const updatedData = {
-    _id: id,
-    email: email || oldData.email,
-    password: password || oldData.password,
-    role: role || oldData.role,
-    active: active === undefined ? oldData.active : active,
-  };
-
   let updatedEntity = {};
 
-  try {
-    updatedEntity = await adminService.update(updatedData._id, updatedData);
-  } catch (error) {
-    return next(new createError.InternalServerError(error.message));
-  }
+  bcrypt.hash(password, saltRounds, async (err, hash) => {
+    if (err) {
+      return next(new createError.InternalServerError('Error during password encryption!'));
+    }
 
-  res.json(updatedEntity);
-  return updatedEntity;
+    const updatedData = {
+      _id: id,
+      email: email || oldData.email,
+      password: hash || oldData.password,
+      active: active === undefined ? oldData.active : active,
+    };
+
+    try {
+      updatedEntity = await adminService.update(updatedData._id, updatedData);
+      return res.json(updatedEntity);
+    } catch (error) {
+      return next(new createError.InternalServerError(error.message));
+    }
+  });
+  return false;
 };
 
 exports.delete = async (req, res, next) => {
@@ -114,35 +99,4 @@ exports.delete = async (req, res, next) => {
 
   res.json({});
   return {};
-};
-
-exports.login = async (req, res, next) => {
-  const {
-    email, password,
-  } = req.body;
-
-  if (!email || !password) {
-    return next(new createError.BadRequest('Missing properties!'));
-  }
-
-  const admin = await adminService.findByEmail(email);
-
-  if (!admin) {
-    return next(new createError.NotFound('Admin is not found'));
-  }
-
-  bcrypt.compare(password, admin.password, (err, result) => {
-    if (err) {
-      return next(new createError.InternalServerError('Error during password comparing!'));
-    }
-
-    if (result) {
-      res.json(true);
-      return true;
-    }
-
-    return next(new createError.BadRequest('Incorrect password!'));
-  });
-
-  return false;
 };

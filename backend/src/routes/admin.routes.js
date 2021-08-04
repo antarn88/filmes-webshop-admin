@@ -5,7 +5,6 @@ const router = express.Router();
 
 // CREATE
 router.post('/', (req, res, next) => controller.create(req, res, next));
-router.post('/register', (req, res, next) => controller.createWithRegister(req, res, next));
 
 // READ
 router.get('/', (req, res) => controller.findAll(req, res));
