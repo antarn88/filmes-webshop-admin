@@ -17,9 +17,9 @@
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let delivery of list$ | async | slice:config.startItem:config.endItem">
       <div class="card-body bg-light">
-        <h5 class="card-title text-center">{{ delivery.customerID | idTransform:'customerName' | async }}</h5>
-        <p class="card-text text-center mb-3">{{ delivery.customerID | idTransform:'customerEmail' | async }}</p>
-        <h6 class="card-text text-center mb-3">{{ delivery.customerID | idTransform:'customerAddress' | async }}</h6>
+        <h5 class="card-title text-center">{{ delivery.customer.lastName }} {{ delivery.customer.firstName }}</h5>
+        <p class="card-text text-center mb-3">{{ delivery.customer.email }}</p>
+        <h6 class="card-text text-center mb-3">{{ delivery.customer.address }}</h6>
         <p class="card-text text-center"><b>{{ delivery.products.length }}</b> szállítandó termék</p>
         <p class="card-text text-center">Megjegyzés:<br><b>{{ delivery.note }}</b></p>
       </div>

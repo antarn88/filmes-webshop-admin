@@ -55,42 +55,10 @@ export class ConfigService {
 
   deliveryColumns: ITableColumn[] = [
     { key: "_id", title: "", hidden: true },
-    {
-      key: "customerID", title: "Vásárló neve", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerName']]
-    },
-    {
-      key: "customerID", title: "Vásárló email címe", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerEmail']]
-    },
-    {
-      key: "customerID", title: "Vásárló lakcíme", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['customerAddress']]
-    },
-    {
-      key: "products", title: "Termékek", pipes: [
-        new IdTransformPipe(
-          this.customerService,
-          this.productService,
-          this.billService)
-      ],
-      pipeArgs: [['products']], htmlOutput: ConfigService.lineBreaker
-    },
+    { title: "Vásárló neve", customized: true, htmlOutput: ConfigService.setCustomerNameFromObject },
+    { title: "Vásárló email címe", customized: true, htmlOutput: ConfigService.setCustomerEmailFromObject},
+    { title: "Vásárló lakcíme", customized: true, htmlOutput: ConfigService.setCustomerAddressFromObject},
+    { title: "Termékek", customized: true, htmlOutput: ConfigService.setOrderedProductsFromObject },
     { key: "note", title: "Megjegyzés" },
   ];
 

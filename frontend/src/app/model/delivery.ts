@@ -1,6 +1,9 @@
+import { Customer } from "./customer";
+import { Product } from "./product";
+
 export class Delivery {
   _id: string = '';
-  customerID: string = ''
-  products: string[] = [];
+  customer: Customer = new Customer();
+  products: Product[] = [];
   note: string = '';
 }
