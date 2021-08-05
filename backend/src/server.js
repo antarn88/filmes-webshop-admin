@@ -11,8 +11,9 @@ const logger = require('./config/logger');
 
 const app = express();
 
-// Authentication.
+// Authenctication.
 const authHandler = require('./auth/authHandler');
+const authenticateJwt = require('./auth/authenticate');
 
 mongoose.Promise = global.Promise;
 
@@ -37,13 +38,13 @@ app.use(cors());
 
 // Endpoints
 app.post('/login', authHandler.login);
-
-app.use('/products', require('./routes/product.routes'));
-app.use('/customers', require('./routes/customer.routes'));
-app.use('/admins', require('./routes/admin.routes'));
-app.use('/bills', require('./routes/bill.routes'));
-app.use('/orders', require('./routes/order.routes'));
-app.use('/deliveries', require('./routes/delivery.routes'));
+app.post('/logout', authHandler.logout);
+app.use('/products', authenticateJwt, require('./routes/product.routes'));
+app.use('/customers', authenticateJwt, require('./routes/customer.routes'));
+app.use('/admins', authenticateJwt, require('./routes/admin.routes'));
+app.use('/bills', authenticateJwt, require('./routes/bill.routes'));
+app.use('/orders', authenticateJwt, require('./routes/order.routes'));
+app.use('/deliveries', authenticateJwt, require('./routes/delivery.routes'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
