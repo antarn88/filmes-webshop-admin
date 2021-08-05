@@ -16,9 +16,8 @@ export class AdminService extends BaseService<Admin> {
     this.entity = 'admins';
   }
 
-  query(queryString: string): Observable<Admin | Admin[]> {
+  query(queryString: string, token: string): Observable<Admin | Admin[]> {
     const url = `${this.apiUrl}/${this.entity}?${queryString}`;
-    return this.http.get<Admin[]>(url);
+    return this.http.get<Admin[]>(url, { 'headers': { 'Authorization': `Bearer ${token}` } });
   }
-  
 }

@@ -43,7 +43,7 @@ export class AuthService {
 
     if (response.accessToken) {
       this.lastToken = response.accessToken;
-      admins = await this.adminService.query(`email=${loginData.email}`).toPromise();
+      admins = await this.adminService.query(`email=${loginData.email}`, this.lastToken).toPromise();
 
       if (admins && Array.isArray(admins)) {
         admins[0].token = this.lastToken;
@@ -59,7 +59,8 @@ export class AuthService {
     return of({ accessToken: '' });
   }
 
-  logout() {
+  async logout(): Promise<void> {
+    await this.http.post<any>(this.logoutUrl, { token: this.lastToken }).toPromise();
     this.lastToken = '';
     localStorage.removeItem('currentAdmin');
     this.currentAdminSubject.next(null);
