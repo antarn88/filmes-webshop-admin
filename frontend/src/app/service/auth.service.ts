@@ -60,7 +60,6 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
-    await this.http.post<any>(this.logoutUrl, { token: this.lastToken }).toPromise();
     this.lastToken = '';
     localStorage.removeItem('currentAdmin');
     this.currentAdminSubject.next(null);
