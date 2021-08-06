@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt');
 
 const adminService = require('../services/admin/admin.service');
 
-const tokens = [];
-
 const login = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -28,7 +26,6 @@ const login = async (req, res, next) => {
       const accessToken = jwt.sign({ email: admin.email }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRY,
       });
-      tokens.push(accessToken);
       return res.json({ accessToken });
     }
 
@@ -38,21 +35,6 @@ const login = async (req, res, next) => {
   return false;
 };
 
-const logout = (req, res) => {
-  const { token } = req.body;
-
-  if (!tokens.includes(token)) {
-    res.sendStatus(403);
-  }
-
-  const tokenIndex = tokens.indexOf(token);
-  tokens.splice(tokenIndex, 1);
-
-  return res.json('OK');
-};
-
 module.exports = {
   login,
-  logout,
-  tokens,
 };
