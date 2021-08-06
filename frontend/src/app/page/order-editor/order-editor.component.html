@@ -7,28 +7,68 @@
         <input name="_id" [(ngModel)]="order._id" type="text" class="form-control" id="_id" required readonly>
       </div>
 
-      <div class="form-group mb-3">
-        <label for="name">Vásárló neve:</label>
-        <input name="name" value="{{ order.customer.lastName }} {{ order.customer.firstName }}" type="text"
-          class="form-control" id="name" required readonly>
+      <div class="choosable-name" *ngIf="!order._id">
+        <label for="customer-select">Vásárló neve:</label>
+        <select #customerSelected class="form-select mb-3" id="customer-select"
+          (change)="onChangeCustomer(customerSelected.value)">
+          <option selected>Válaszd ki a vásárlót</option>
+          <option value="{{customer._id}}" *ngFor="let customer of customers">{{ customer.lastName }} {{
+            customer.firstName }}</option>
+        </select>
+      </div>
+
+      <div class="fix-name" *ngIf="order._id">
+        <div class="form-group mb-3">
+          <label for="name">Vásárló neve:</label>
+          <input name="name" value="{{ order.customer.lastName }} {{ order.customer.firstName }}" type="text"
+            class="form-control" id="name" required readonly>
+        </div>
       </div>
 
       <div class="form-group mb-3">
         <label for="email">Vásárló email címe:</label>
-        <input name="email" [value]="order.customer.email" type="email"
-          class="form-control" id="email" required readonly>
+        <input name="email" [value]="order.customer.email" type="email" class="form-control" id="email" required
+          readonly>
       </div>
 
       <label for="products">Rendelt termékek:</label>
-      <ul>
-        <li *ngFor="let product of order.products"> {{ product.name }}</li>
-      </ul>
+
+      <button class="btn btn-success w-100 mb-3" type="button" data-bs-toggle="modal"
+        data-bs-target="#product-chooser">Termék hozzáadása</button>
+
+      <table class="table" *ngIf="order.products.length || tempProducts.length">
+        <thead>
+          <tr>
+            <th>Termék neve</th>
+            <th>Termék ára</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="order._id">
+          <tr *ngFor="let product of order.products">
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} Ft</td>
+            <th><button class="btn btn-danger" (click)="onClickRemoveProductFromOrder(product)" type="button"><i
+                  class="fa fa-trash"></i></button></th>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="tempProducts.length">
+          <tr *ngFor="let product of tempProducts">
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} Ft</td>
+            <th><button class="btn btn-danger" (click)="onClickRemoveProductFromTemp(product)" type="button"><i
+                  class="fa fa-trash"></i></button></th>
+          </tr>
+        </tbody>
+
+      </table>
 
       <div class="form-group mb-3">
         <label for="sum">Végösszeg:</label>
         <div class="input-group">
-          <input name="sum" [value]="order.bill.sum" type="number" class="form-control"
-            id="sum" required readonly>
+          <input name="sum" [value]="order.bill.sum + tempService.getTotalSumOfTempProducts()" type="number"
+            class="form-control" id="sum" required readonly>
           <div class="input-group-append"><span class="input-group-text">Ft</span></div>
         </div>
       </div>
@@ -41,8 +81,7 @@
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="status"
-          [checked]="order.bill.paid" disabled>
+        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="status" [checked]="order.bill.paid">
         <label class="form-check-label" for="flexCheckDefault">Státusz</label>
       </div>
 
@@ -56,3 +95,5 @@
     </form>
   </div>
 </div>
+
+<app-product-chooser></app-product-chooser>

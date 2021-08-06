@@ -1,0 +1,38 @@
+<div class="modal fade" id="product-chooser" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Termékválasztó</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+
+            <label for="exampleDataList" class="form-label">Termék:</label>
+            <select #productSelected class="form-select mb-3" id="product-select"
+              (change)="onChangeProduct(productSelected.value)">
+              <option selected>Válaszd ki a terméket</option>
+              <option value="{{product._id}}" *ngFor="let product of products">{{ product.name }}</option>
+            </select>
+
+            <div class="product-data d-flex justify-content-evenly" *ngIf="currentProduct.photo">
+              <img src="{{ currentProduct.photo }}" alt="Product photo" width="200">
+              <div class="right-section d-flex flex-column justify-content-center align-items-center">
+                <h4 class="text-center">{{ currentProduct.name }}</h4>
+                <p class="text-center">{{ currentProduct.description }}</p>
+                <h5 class="text-center">{{ currentProduct.price }} Ft</h5>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="setAddedProduct(currentProduct)"
+          data-bs-dismiss="modal">Hozzáad</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+      </div>
+    </div>
+  </div>
+</div>

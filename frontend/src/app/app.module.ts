@@ -35,6 +35,7 @@ import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 import { JwtInterceptorService } from './service/jwt-interceptor.service';
 import { FooterComponent } from './widget/footer/footer.component';
 import { ModalComponent } from './widget/modal/modal.component';
+import { ProductChooserComponent } from './widget/product-chooser/product-chooser.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ModalComponent } from './widget/modal/modal.component';
     ForbiddenComponent,
     FooterComponent,
     ModalComponent,
+    ProductChooserComponent,
   ],
   imports: [
     BrowserModule,
