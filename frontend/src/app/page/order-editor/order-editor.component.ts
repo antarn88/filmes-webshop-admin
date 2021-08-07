@@ -10,6 +10,7 @@ import { CustomerService } from 'src/app/service/customer.service';
 import { Customer } from 'src/app/model/customer';
 import { TempService } from 'src/app/service/temp.service';
 import { Product } from 'src/app/model/product';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-order-editor',
@@ -21,7 +22,8 @@ export class OrderEditorComponent implements OnInit {
   order: Order = new Order();
   customers: Customer[] = [];
   currentCustomer: Customer = new Customer();
-  tempProducts: Product[] = [];
+  tempProducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  totalSum: number = this.tempService.getTotalSumOfTempProducts();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,7 +43,7 @@ export class OrderEditorComponent implements OnInit {
     } else {
       this.customers = await this.customerService.getAll().toPromise();
     }
-    this.tempProducts = this.tempService.getAllOrderingProducts();
+    this.tempProducts = this.tempService.orderingProducts;
   }
 
   async setOrderToDatabase(order: Order, form: NgForm): Promise<void> {
@@ -89,11 +91,12 @@ export class OrderEditorComponent implements OnInit {
   }
 
   onClickRemoveProductFromOrder(product: Product): void {
-    console.log(product);
+    // const productIndex = this.order.products.findIndex(p => product._id === p._id);
+    // this.order.products.splice(productIndex, 1);
   }
 
   onClickRemoveProductFromTemp(product: Product): void {
-    console.log(product);
+    this.tempService.delProductFromOrderList(product).subscribe(() => {});
   }
 
 }

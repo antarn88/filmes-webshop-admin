@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Product } from '../model/product';
 
 @Injectable({
@@ -6,30 +8,34 @@ import { Product } from '../model/product';
 })
 export class TempService {
 
-  orderingProducts: Product[] = [];
+  orderingProducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
 
   constructor() { }
 
   addProductToOrderList(product: Product): void {
-    this.orderingProducts.push(product);
+    this.orderingProducts.next([...this.orderingProducts.getValue(), product]);
   }
 
-  delProductFromOrderList(product: Product): void {
-    const productIndex = this.orderingProducts.findIndex(op => op._id === product._id);
-    this.orderingProducts.slice(productIndex, 1);
+  delProductFromOrderList(product: Product): Observable<Product[]> {
+    return this.orderingProducts.pipe(
+      tap((list: Product[]) => {
+        const productIndex = list.findIndex(op => op._id === product._id);
+        list.splice(productIndex, 1);
+      })
+    );
   }
 
   clearTemp(): void {
-    this.orderingProducts = [];
+    this.orderingProducts.next([]);
   }
 
-  getAllOrderingProducts(): Product[] {
+  getAllOrderingProducts(): Observable<Product[]> {
     return this.orderingProducts;
   }
 
   getTotalSumOfTempProducts(): number {
     let sum = 0;
-    this.orderingProducts.forEach(op => sum += op.price);
+    this.orderingProducts.pipe(tap(list => list.forEach(op => sum += op.price))).subscribe(() => { });
     return sum;
   }
 }

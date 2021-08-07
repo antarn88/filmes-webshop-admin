@@ -36,7 +36,7 @@
       <button class="btn btn-success w-100 mb-3" type="button" data-bs-toggle="modal"
         data-bs-target="#product-chooser">Termék hozzáadása</button>
 
-      <table class="table" *ngIf="order.products.length || tempProducts.length">
+      <table class="table" *ngIf="order.products.length || (tempProducts | async)?.length">
         <thead>
           <tr>
             <th>Termék neve</th>
@@ -53,8 +53,8 @@
           </tr>
         </tbody>
 
-        <tbody *ngIf="tempProducts.length">
-          <tr *ngFor="let product of tempProducts">
+        <tbody *ngIf="(tempProducts | async)?.length">
+          <tr *ngFor="let product of tempProducts | async">
             <td>{{ product.name }}</td>
             <td>{{ product.price }} Ft</td>
             <th><button class="btn btn-danger" (click)="onClickRemoveProductFromTemp(product)" type="button"><i
@@ -67,8 +67,8 @@
       <div class="form-group mb-3">
         <label for="sum">Végösszeg:</label>
         <div class="input-group">
-          <input name="sum" [value]="order.bill.sum + tempService.getTotalSumOfTempProducts()" type="number"
-            class="form-control" id="sum" required readonly>
+          <input name="sum" [value]="order.bill.sum + totalSum" type="number" class="form-control" id="sum" required
+            readonly>
           <div class="input-group-append"><span class="input-group-text">Ft</span></div>
         </div>
       </div>
