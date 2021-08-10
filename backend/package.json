@@ -5,7 +5,10 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "nodemon ./src/index.js",
-    "test": "jest"
+    "test": "jest",
+    "docker:build": "docker build -t filmes-webshop-admin .",
+    "docker:run": "docker run -p 3000:3000 -it --rm filmes-webshop-admin",
+    "docker:start": "npm run docker:build && npm run docker:run"
   },
   "keywords": [],
   "author": "",
