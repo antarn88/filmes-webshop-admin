@@ -40,6 +40,7 @@ app.use(cors());
 
 // Endpoints
 app.post('/login', authHandler.login);
+app.use('/login', express.static('public'));
 app.use('/products', authenticateJwt, require('./routes/product.routes'));
 app.use('/customers', authenticateJwt, require('./routes/customer.routes'));
 app.use('/admins', authenticateJwt, require('./routes/admin.routes'));
