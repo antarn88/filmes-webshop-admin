@@ -119,8 +119,8 @@ export class OrderEditorComponent implements OnInit {
     const newBill = { _id: '0', products, customer, sum, paid };
     const newBillObject = await this.billService.create(newBill).toPromise();
     const newOrder = { _id: '0', products, note, customer, bill: newBillObject };
-    await this.orderService.create(newOrder).toPromise();
-    const newDelivery = { _id: '0', products, customer, note };
+    const newOrderFromDatabase = await this.orderService.create(newOrder).toPromise();
+    const newDelivery = { _id: '0', products, customer, note, order: newOrderFromDatabase._id };
     await this.deliveryService.create(newDelivery).toPromise();
   }
 
@@ -140,13 +140,13 @@ export class OrderEditorComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    if (this.order._id === '0') {
-      const hasProducts = this.tempProducts.getValue().length > 0 || this.order.products.length > 0;
+    const hasProducts = this.tempProducts.getValue().length > 0 || this.order.products.length > 0;
+    const hasNote = this.order.note.length > 0;
+    if (!this.order._id) {
       const hasCustomer = (document.querySelector('#customer-select') as HTMLInputElement).value !== 'Válaszd ki a vásárlót';
-      const hasNote = this.order.note.length > 0;
       return hasProducts && hasCustomer && hasNote;
     } else {
-      return true;
+      return hasProducts && hasNote;
     }
   }
 

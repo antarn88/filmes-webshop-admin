@@ -6,6 +6,11 @@ const DeliverySchema = mongoose.Schema({
     ref: 'Customer',
     required: true,
   },
+  order: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order',
+    required: true,
+  },
   products: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Product',

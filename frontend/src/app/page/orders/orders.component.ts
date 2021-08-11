@@ -38,8 +38,8 @@ export class OrdersComponent implements OnInit {
     if (confirmedDelete) {
       try {
         await this.orderService.delete(this.currentOrderForDelete._id).toPromise();
-        // await this.billService.delete(this.currentOrderForDelete.bill._id).toPromise();
-        // await this.deliveryService.delete(this.currentOrderForDelete.bill._id).toPromise();
+        await this.billService.delete(this.currentOrderForDelete.bill._id).toPromise();
+        await this.deliveryService.deleteByOrderId(this.currentOrderForDelete._id).toPromise();
         this.list$ = this.orderService.getAll();
         this.toastr.success('Sikeresen törölted a rendelést!', 'Siker!', {
           timeOut: 3000,

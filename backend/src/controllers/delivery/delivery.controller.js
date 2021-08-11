@@ -19,15 +19,15 @@ exports.findOne = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   const {
-    customer, products, note,
+    customer, products, note, order,
   } = req.body;
 
-  if (!customer || !products || !note) {
+  if (!customer || !products || !note || !order) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
   const newDeliveryFromReqBody = {
-    customer, products, note,
+    customer, products, note, order,
   };
 
   const newDeliveryFromDatabase = await deliveryService.create(newDeliveryFromReqBody);
@@ -40,7 +40,7 @@ exports.update = async (req, res, next) => {
   const { id } = req.params;
 
   const {
-    customer, products, note,
+    customer, products, note, order,
   } = req.body;
 
   const oldData = await deliveryService.findOne(id);
@@ -52,6 +52,7 @@ exports.update = async (req, res, next) => {
   const updatedData = {
     _id: id,
     customer: customer === undefined ? oldData.customer : customer,
+    order: order === undefined ? oldData.order : order,
     products: products === undefined ? oldData.products : products,
     note: note === undefined ? oldData.note : note,
   };
@@ -70,6 +71,18 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     await deliveryService.delete(req.params.id);
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
+  }
+  res.json({});
+  return {};
+};
+
+exports.deleteByOrderId = async (req, res, next) => {
+  const { orderId } = req.params;
+
+  try {
+    await deliveryService.deleteByOrderId(orderId);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
