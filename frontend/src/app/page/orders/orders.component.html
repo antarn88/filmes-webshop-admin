@@ -16,7 +16,7 @@
     <div class="card mb-5" style="width: 18rem;"
       *ngFor="let order of list$ | async | slice:config.startItem:config.endItem">
       <div class="card-body bg-light">
-        <h5 class="card-title">{{ order.customer.lastName }} {{ order.customer.firstName }} rendelése</h5>
+        <h5 class="card-title text-center">{{ order.customer.lastName }} {{ order.customer.firstName }} rendelése</h5>
         <h6 class="card-text text-center mb-3">{{ order.customer.email }}</h6>
         <p class="card-text text-center"><b>{{ order.products.length }}</b> rendelt termék</p>
         <p class="card-text text-center"><b>{{ order.bill.sum }} Ft</b> értékben</p>

@@ -6,5 +6,5 @@ export class Bill {
   customer: Customer = new Customer();
   products: Product[] = [];
   sum: number = 0;
-  paid: boolean = false;
+  paid: boolean = true;
 }
