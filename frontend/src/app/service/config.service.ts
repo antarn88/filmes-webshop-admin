@@ -2,7 +2,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product';
-import { IdTransformPipe } from '../pipe/id-transform.pipe';
 import { BillService } from './bill.service';
 import { CustomerService } from './customer.service';
 import { ProductService } from './product.service';

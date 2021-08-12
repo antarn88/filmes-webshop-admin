@@ -13,6 +13,7 @@ export class DataTableComponent<T extends { [propname: string]: any }> implement
   @Input() tableColumns: ITableColumn[] = [];
   @Input() list$: Observable<T[]> | null = null;
   @Input() tableTitle: string = '';
+  @Input() hasButtons: boolean = true;
   @Output() deleteClick: EventEmitter<any> = new EventEmitter();
 
   constructor(

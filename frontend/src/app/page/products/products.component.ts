@@ -5,6 +5,9 @@ import { Product } from 'src/app/model/product';
 import { ConfigService, ITableColumn } from 'src/app/service/config.service';
 import { ProductService } from 'src/app/service/product.service';
 import { ToastrService } from 'ngx-toastr';
+import { OrderService } from 'src/app/service/order.service';
+import { DeliveryService } from 'src/app/service/delivery.service';
+import { BillService } from 'src/app/service/bill.service';
 
 @Component({
   selector: 'app-products',
@@ -22,6 +25,9 @@ export class ProductsComponent implements OnInit {
   constructor(
     public config: ConfigService,
     private productService: ProductService,
+    private orderService: OrderService,
+    private deliveryService: DeliveryService,
+    private billService: BillService,
     public activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
   ) { }
@@ -33,7 +39,38 @@ export class ProductsComponent implements OnInit {
   async deleteProductAction(confirmedDelete: boolean): Promise<void> {
     if (confirmedDelete) {
       try {
+        const orders = await this.orderService.getAll().toPromise();
+        const deliveries = await this.deliveryService.getAll().toPromise();
+        const bills = await this.billService.getAll().toPromise();
+
+        for (const order of orders) {
+          for (const product of order.products) {
+            if (this.currentProductForDelete._id === product._id) {
+              await this.productService.delete(product._id).toPromise();
+            }
+          }
+        }
+
+        for (const delivery of deliveries) {
+          for (const product of delivery.products) {
+            if (this.currentProductForDelete._id === product._id) {
+              await this.productService.delete(product._id).toPromise();
+            }
+          }
+        }
+
+        for (const bill of bills) {
+          for (const product of bill.products) {
+            if (this.currentProductForDelete._id === product._id) {
+              await this.productService.delete(product._id).toPromise();
+              const reducedPrice = bill.sum - product.price;
+              await this.billService.update({...bill, sum: reducedPrice}).toPromise();
+            }
+          }
+        }
+
         await this.productService.delete(this.currentProductForDelete._id).toPromise();
+
         this.list$ = this.productService.getAll();
         this.toastr.success('Sikeresen törölted a terméket!', 'Siker!', {
           timeOut: 3000,
@@ -43,6 +80,7 @@ export class ProductsComponent implements OnInit {
           timeOut: 3000,
         })
       }
+
     }
   }
 

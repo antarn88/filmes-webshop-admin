@@ -23,7 +23,6 @@ import { DeliveriesComponent } from './page/deliveries/deliveries.component';
 import { BillsComponent } from './page/bills/bills.component';
 import { AdminsComponent } from './page/admins/admins.component';
 import { DataTableComponent } from './widget/data-table/data-table.component';
-import { IdTransformPipe } from './pipe/id-transform.pipe';
 import { XPipePipe } from './pipe/x-pipe.pipe';
 import { ProductEditorComponent } from './page/product-editor/product-editor.component';
 import { AdminEditorComponent } from './page/admin-editor/admin-editor.component';
@@ -50,7 +49,6 @@ import { ProductChooserComponent } from './widget/product-chooser/product-choose
     BillsComponent,
     AdminsComponent,
     DataTableComponent,
-    IdTransformPipe,
     XPipePipe,
     ProductEditorComponent,
     AdminEditorComponent,

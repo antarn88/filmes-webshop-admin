@@ -7,7 +7,7 @@
       <thead>
         <tr>
           <th *ngFor="let col of tableColumns"> {{ col.title }} </th>
-          <th>Műveletek</th>
+          <th *ngIf="hasButtons">Műveletek</th>
         </tr>
       </thead>
       <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
@@ -26,7 +26,7 @@
             <span *ngIf="!col.key && col.customized"
               [innerHTML]="col.htmlOutput(row | xPipe:col.pipes:col.pipeArgs | async)">{{ row }}</span>
           </td>
-          <td>
+          <td *ngIf="hasButtons">
             <div class="btn-group">
               <button class="btn btn-secondary" (click)="onClickEdit(row)"><i class="fa fa-pencil"></i></button>
               <button class="btn btn-danger" (click)="onClickDelete(row)" data-bs-toggle="modal"
