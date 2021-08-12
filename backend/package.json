@@ -4,11 +4,10 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "start": "nodemon ./src/index.js",
+    "start": "npm run docker:build && docker image prune -f && npm run docker:run",
     "test": "jest",
     "docker:build": "docker build -t filmes-webshop-admin .",
-    "docker:run": "docker run -p 3000:3000 -it --name=\"filmes-webshop-admin\" --rm filmes-webshop-admin",
-    "docker:start": "npm run docker:build && docker image prune -f && npm run docker:run"
+    "docker:run": "docker run -p 3000:3000 -it --name=\"filmes-webshop-admin\" --rm filmes-webshop-admin"    
   },
   "keywords": [],
   "author": "",
