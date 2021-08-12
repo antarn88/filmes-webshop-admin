@@ -7,8 +7,8 @@
     "start": "nodemon ./src/index.js",
     "test": "jest",
     "docker:build": "docker build -t filmes-webshop-admin .",
-    "docker:run": "docker run -p 3000:3000 -it --rm filmes-webshop-admin",
-    "docker:start": "npm run docker:build && npm run docker:run"
+    "docker:run": "docker run -p 3000:3000 -it --name=\"filmes-webshop-admin\" --rm filmes-webshop-admin",
+    "docker:start": "npm run docker:build && docker image prune -f && npm run docker:run"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +32,6 @@
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.5",
-    "mongoose-id-validator": "^0.6.0",
     "morgan": "^1.10.0",
     "supertest": "^6.1.4",
     "swagger-ui-express": "^4.1.6",
