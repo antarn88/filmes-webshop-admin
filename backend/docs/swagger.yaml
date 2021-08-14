@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+    version: 1.0.0
+    title: Filmes Webshop API
+    description: The Filmes Webshop API to illustrate REST API concepts
+servers:
+    - url: 'http://localhost:3000'
+paths:
+    /login:
+        post:
+            description: Login for access token
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+            responses:
+                '200':
+                    description: Login was successful
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    accessToken:
+                                        type: string
+                '400':
+                    description: Incorrect email or password
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /products:
+        get:
+            description: Returns a list of products
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of products returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+        post:
+            description: Creates a new product
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Product'
+            responses:
+                '201':
+                    description: Product has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                '400':
+                    description: Missing properties error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+    /products/{product_id}:
+        get:
+            description: Returns the product with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: product_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Product data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Product with the given ID was not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update a product
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: product_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Product'
+            responses:
+                '200':
+                    description: Product has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Product is not found error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete a product
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: product_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The product was deleted successfully
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    schemas:
+        Admin:
+            type: object
+            required:
+                - email
+                - password
+                - active
+            properties:
+                email:
+                    type: string
+                password:
+                    type: string
+                active:
+                    type: boolean
+        Customer:
+            type: object
+            required:
+                - firstName
+                - lastName
+                - email
+                - address
+                - active
+            properties:
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                address:
+                    type: string
+                active:
+                    type: boolean
+        Product:
+            type: object
+            required:
+                - name
+                - description
+                - price
+                - photo
+                - active
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                price:
+                    type: number
+                photo:
+                    type: string
+                active:
+                    type: boolean
+        Bill:
+            type: object
+            required:
+                - customer
+                - products
+                - sum
+                - paid
+            properties:
+                customer:
+                    type: object
+                    $ref: '#/components/schemas/Customer'
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+                sum:
+                    type: number
+                paid:
+                    type: boolean
+        Order:
+            type: object
+            required:
+                - customer
+                - bill
+                - products
+                - note
+            properties:
+                customer:
+                    type: object
+                    $ref: '#/components/schemas/Customer'
+                bill:
+                    type: object
+                    $ref: '#/components/schemas/Bill'
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+                note:
+                    type: string
+        Delivery:
+            type: object
+            required:
+                - customer
+                - order
+                - products
+                - note
+            properties:
+                customer:
+                    type: object
+                    $ref: '#/components/schemas/Customer'
+                order:
+                    type: object
+                    $ref: '#/components/schemas/Order'
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+                note:
+                    type: string
+        Error:
+            type: object
+            required:
+                - message
+                - has_error
+            properties:
+                message:
+                    type: string
+                has_error:
+                    type: boolean

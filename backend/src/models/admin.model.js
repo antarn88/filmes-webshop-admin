@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const AdminSchema = mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -9,8 +9,10 @@ const AdminSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  role: String,
-  active: Boolean,
+  active: {
+    type: Boolean,
+    required: true,
+  },
 }, {
   timestamps: false,
   versionKey: false,

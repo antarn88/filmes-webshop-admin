@@ -6,6 +6,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 const logger = require('./config/logger');
 
@@ -14,6 +16,8 @@ const app = express();
 // Authenctication.
 const authHandler = require('./auth/authHandler');
 const authenticateJwt = require('./auth/authenticate');
+
+const swaggerDocument = YAML.load('./docs/swagger.yaml');
 
 mongoose.Promise = global.Promise;
 
@@ -30,6 +34,7 @@ mongoose.Promise = global.Promise;
   }
 })();
 
+// @ts-ignore
 app.use(morgan('tiny', { stream: logger.stream }));
 
 // app.use(express.static('public'));
@@ -47,6 +52,8 @@ app.use('/admins', authenticateJwt, require('./routes/admin.routes'));
 app.use('/bills', authenticateJwt, require('./routes/bill.routes'));
 app.use('/orders', authenticateJwt, require('./routes/order.routes'));
 app.use('/deliveries', authenticateJwt, require('./routes/delivery.routes'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
