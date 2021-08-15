@@ -37,8 +37,6 @@ mongoose.Promise = global.Promise;
 // @ts-ignore
 app.use(morgan('tiny', { stream: logger.stream }));
 
-// app.use(express.static('public'));
-
 app.use(express.json());
 
 app.use(cors());
@@ -54,6 +52,8 @@ app.use('/orders', authenticateJwt, require('./routes/order.routes'));
 app.use('/deliveries', authenticateJwt, require('./routes/delivery.routes'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// app.use(express.static('public'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

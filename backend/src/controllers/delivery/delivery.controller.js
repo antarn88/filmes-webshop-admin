@@ -70,7 +70,10 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await deliveryService.delete(req.params.id);
+    const deletedDelivery = await deliveryService.delete(req.params.id);
+    if (!deletedDelivery) {
+      return next(new createError.NotFound('Delivery is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
@@ -82,7 +85,10 @@ exports.deleteByOrderId = async (req, res, next) => {
   const { orderId } = req.params;
 
   try {
-    await deliveryService.deleteByOrderId(orderId);
+    const deletedDelivery = await deliveryService.deleteByOrderId(orderId);
+    if (!deletedDelivery) {
+      return next(new createError.NotFound('Delivery is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

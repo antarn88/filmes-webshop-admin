@@ -70,7 +70,11 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await customerService.delete(req.params.id);
+    const deletedCustomer = await customerService.delete(req.params.id);
+
+    if (!deletedCustomer) {
+      return next(new createError.NotFound('Customer is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

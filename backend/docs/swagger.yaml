@@ -33,9 +33,9 @@ paths:
                 '400':
                     description: Incorrect email or password
                     content:
-                        application/json:
+                        text/plain:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                type: string
                 '500':
                     description: Internal server error
                     content:
@@ -66,6 +66,12 @@ paths:
                                 html:
                                     summary: Error message
                                     value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
         post:
             description: Creates a new product
             security:
@@ -86,9 +92,9 @@ paths:
                 '400':
                     description: Missing properties error
                     content:
-                        application/json:
+                        text/plain:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                type: string
                 '401':
                     description: Unauthorized error
                     content:
@@ -99,6 +105,12 @@ paths:
                                 html:
                                     summary: Error message
                                     value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
     /products/{product_id}:
         get:
             description: Returns the product with the given ID
@@ -129,6 +141,12 @@ paths:
                                     value: Unauthorized
                 '404':
                     description: Product with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
                     content:
                         application/json:
                             schema:
@@ -169,9 +187,9 @@ paths:
                 '404':
                     description: Product is not found error
                     content:
-                        application/json:
+                        text/plain:
                             schema:
-                                $ref: '#/components/schemas/Error'
+                                type: string
                 '500':
                     description: Internal server error
                     content:
@@ -191,6 +209,10 @@ paths:
             responses:
                 '200':
                     description: The product was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
                 '401':
                     description: Unauthorized error
                     content:
@@ -201,6 +223,1029 @@ paths:
                                 html:
                                     summary: Error message
                                     value: Unauthorized
+                '404':
+                    description: Product is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /customers:
+        get:
+            description: Returns a list of customers
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of customers returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Customer'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            description: Creates a new customer
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+            responses:
+                '201':
+                    description: Customer has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                '400':
+                    description: Missing properties error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /customers/{customer_id}:
+        get:
+            description: Returns the customer with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: customer_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Customer data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Customer with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update a customer
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: customer_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+            responses:
+                '200':
+                    description: Customer has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Customer is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete a customer
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: customer_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The customer was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Customer is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /admins:
+        get:
+            description: Returns a list of admins
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of admins returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Admin'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            description: Creates a new admin
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Admin'
+            responses:
+                '201':
+                    description: Admin has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+                '400':
+                    description: Missing properties error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /admins/{admin_id}:
+        get:
+            description: Returns the admin with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: admin_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Admin data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Admin with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update an admin
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: admin_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Admin'
+            responses:
+                '200':
+                    description: Admin has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Admin is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete an admin
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: admin_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The admin was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Admin is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /bills:
+        get:
+            description: Returns a list of bills
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of bills returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Bill'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            description: Creates a new bill
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Bill'
+            responses:
+                '201':
+                    description: Bill has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Bill'
+                '400':
+                    description: Missing properties error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /bills/{bill_id}:
+        get:
+            description: Returns the bill with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: bill_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Bill data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Bill'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Bill with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update a bill
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: bill_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Bill'
+            responses:
+                '200':
+                    description: Bill has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Bill'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Bill is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete a bill
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: bill_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The bill was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Bill is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /orders:
+        get:
+            description: Returns a list of orders
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of orders returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Order'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            description: Creates a new order
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Order'
+            responses:
+                '201':
+                    description: Order has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Order'
+                '400':
+                    description: Missing properties error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /orders/{order_id}:
+        get:
+            description: Returns the order with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: order_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Order data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Order'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Order with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update an order
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: order_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Order'
+            responses:
+                '200':
+                    description: Order has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Order'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Order is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete an order
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: order_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The order was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Order is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /deliveries:
+        get:
+            description: Returns a list of deliveries
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: List of deliveries returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Delivery'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        post:
+            description: Creates a new delivery
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Delivery'
+            responses:
+                '201':
+                    description: Delivery has been created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Delivery'
+                '400':
+                    description: Missing properties error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /deliveries/{delivery_id}:
+        get:
+            description: Returns the delivery with the given ID
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: delivery_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: Delivery data returned successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Delivery'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Delivery with the given ID was not found
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        patch:
+            description: Update a delivery
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: delivery_id
+                  required: true
+                  schema: 
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Delivery'
+            responses:
+                '200':
+                    description: Delivery has been updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Delivery'
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Delivery is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            description: Delete a delivery
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: delivery_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The delivery was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Delivery is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string                    
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /deliveries/orderId={order_id}:
+        delete:
+            description: Delete a delivery based on an order
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: path
+                  name: order_id
+                  required: true
+                  schema: 
+                    type: string
+            responses:
+                '200':
+                    description: The delivery was deleted successfully
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '401':
+                    description: Unauthorized error
+                    content:
+                        text/html:
+                            schema:
+                                type: string
+                            examples:
+                                html:
+                                    summary: Error message
+                                    value: Unauthorized
+                '404':
+                    description: Delivery is not found error
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /api-docs:
+        get:
+            description: API documentation for Filmes webshop
+            responses:
+                '200':
+                    description: Returned the API documentation successfully
                 '500':
                     description: Internal server error
                     content:

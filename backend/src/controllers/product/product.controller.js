@@ -9,12 +9,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const product = await productService.findOne(req.params.id);
-  if (!product) {
-    return next(new createError.NotFound('Product is not found'));
+  try {
+    const product = await productService.findOne(req.params.id);
+    if (!product) {
+      return next(new createError.NotFound('Product is not found'));
+    }
+    res.json(product);
+    return product;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(product);
-  return product;
 };
 
 exports.create = async (req, res, next) => {
@@ -25,14 +29,19 @@ exports.create = async (req, res, next) => {
   if (!name || !description || !price || !photo || !active) {
     return next(new createError.BadRequest('Missing properties!'));
   }
-  const newProductFromReqBody = {
-    name, description, price: Number(price), photo, active,
-  };
 
-  const newProductFromDatabase = await productService.create(newProductFromReqBody);
-  res.status(201);
-  res.json(newProductFromDatabase);
-  return newProductFromDatabase;
+  try {
+    const newProductFromReqBody = {
+      name, description, price: Number(price), photo, active,
+    };
+
+    const newProductFromDatabase = await productService.create(newProductFromReqBody);
+    res.status(201);
+    res.json(newProductFromDatabase);
+    return newProductFromDatabase;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
+  }
 };
 
 exports.update = async (req, res, next) => {
@@ -42,24 +51,24 @@ exports.update = async (req, res, next) => {
     name, description, price, photo, active,
   } = req.body;
 
-  const oldData = await productService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Product is not found!'));
-  }
-
-  const updatedData = {
-    _id: id,
-    name: name || oldData.name,
-    description: description || oldData.description,
-    price: Number(price) || oldData.price,
-    photo: photo || oldData.photo,
-    active: active === undefined ? oldData.active : active,
-  };
-
   let updatedEntity = {};
 
   try {
+    const oldData = await productService.findOne(id);
+
+    if (!oldData) {
+      return next(new createError.NotFound('Product is not found!'));
+    }
+
+    const updatedData = {
+      _id: id,
+      name: name || oldData.name,
+      description: description || oldData.description,
+      price: Number(price) || oldData.price,
+      photo: photo || oldData.photo,
+      active: active === undefined ? oldData.active : active,
+    };
+
     updatedEntity = await productService.update(updatedData._id, updatedData);
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
@@ -71,7 +80,10 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await productService.delete(req.params.id);
+    const deletedProduct = await productService.delete(req.params.id);
+    if (!deletedProduct) {
+      return next(new createError.NotFound('Product is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

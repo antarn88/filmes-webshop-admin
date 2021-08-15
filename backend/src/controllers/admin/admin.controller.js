@@ -27,7 +27,7 @@ exports.create = async (req, res, next) => {
     email, password, active,
   } = req.body;
 
-  if (!email || !password || !active) {
+  if (!email || !password || active === undefined) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
@@ -92,7 +92,11 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await adminService.delete(req.params.id);
+    const deletedAdmin = await adminService.delete(req.params.id);
+
+    if (!deletedAdmin) {
+      return next(new createError.NotFound('Admin is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }

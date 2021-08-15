@@ -22,7 +22,7 @@ exports.create = async (req, res, next) => {
     customer, products, sum, paid,
   } = req.body;
 
-  if (!customer || !products || !sum || !paid) {
+  if (!customer || !products || !sum || paid === undefined) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
@@ -70,7 +70,11 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    await billService.delete(req.params.id);
+    const deletedBill = await billService.delete(req.params.id);
+
+    if (!deletedBill) {
+      return next(new createError.NotFound('Bill is not found!'));
+    }
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
