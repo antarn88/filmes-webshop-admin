@@ -10,7 +10,7 @@ import { AdminService } from './admin.service';
 })
 export class AuthService {
 
-  loginUrl: string = 'http://localhost:3000/login';
+  loginUrl: string = 'http://localhost:3000/api/login';
   logoutUrl: string = 'http://localhost:3000/logout';
   currentAdminSubject: BehaviorSubject<any> = new BehaviorSubject(null);
   lastToken: string = '';

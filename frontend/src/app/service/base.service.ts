@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BaseService<T extends { _id: string }> {
 
-  public readonly apiUrl: string = 'http://localhost:3000';
+  public readonly apiUrl: string = 'http://localhost:3000/api';
   entity: string = '';
 
   constructor(

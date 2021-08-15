@@ -11,4 +11,4 @@ if (!config.has('database')) {
   process.exit();
 }
 
-app.listen(port, () => console.log(`Backend server listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));

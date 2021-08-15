@@ -6,7 +6,7 @@ info:
 servers:
     - url: 'http://localhost:3000'
 paths:
-    /login:
+    /api/login:
         post:
             description: Login for access token
             requestBody:
@@ -42,7 +42,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /products:
+    /api/products:
         get:
             description: Returns a list of products
             security:
@@ -111,7 +111,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /products/{product_id}:
+    /api/products/{product_id}:
         get:
             description: Returns the product with the given ID
             security:
@@ -235,7 +235,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /customers:
+    /api/customers:
         get:
             description: Returns a list of customers
             security:
@@ -304,7 +304,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /customers/{customer_id}:
+    /api/customers/{customer_id}:
         get:
             description: Returns the customer with the given ID
             security:
@@ -428,7 +428,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /admins:
+    /api/admins:
         get:
             description: Returns a list of admins
             security:
@@ -497,7 +497,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /admins/{admin_id}:
+    /api/admins/{admin_id}:
         get:
             description: Returns the admin with the given ID
             security:
@@ -621,7 +621,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /bills:
+    /api/bills:
         get:
             description: Returns a list of bills
             security:
@@ -690,7 +690,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /bills/{bill_id}:
+    /api/bills/{bill_id}:
         get:
             description: Returns the bill with the given ID
             security:
@@ -814,7 +814,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /orders:
+    /api/orders:
         get:
             description: Returns a list of orders
             security:
@@ -883,7 +883,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /orders/{order_id}:
+    /api/orders/{order_id}:
         get:
             description: Returns the order with the given ID
             security:
@@ -1007,7 +1007,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /deliveries:
+    /api/deliveries:
         get:
             description: Returns a list of deliveries
             security:
@@ -1076,7 +1076,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /deliveries/{delivery_id}:
+    /api/deliveries/{delivery_id}:
         get:
             description: Returns the delivery with the given ID
             security:
@@ -1200,7 +1200,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /deliveries/orderId={order_id}:
+    /api/deliveries/orderId={order_id}:
         delete:
             description: Delete a delivery based on an order
             security:
@@ -1240,7 +1240,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /api-docs:
+    /api/api-docs:
         get:
             description: API documentation for Filmes webshop
             responses:
