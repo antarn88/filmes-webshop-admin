@@ -31,24 +31,23 @@ Egy mobiloptimalizált, látványos felületen megjelennek a fő tartalmak, ahol
 ---
 ---
 
-## _**3. Filmes adatbázis**_
+## _**3. Termékek**_
 ---
 
 **1. agilis felhasználói történet:**
-> _Egy helyen áttekinthetők és szerkeszthetők a nyilvántartott filmek, azok különböző 
-> kategóriái, paraméterei, legfontosabb adatai
+> _Egy helyen áttekinthetők és szerkeszthetők a nyilvántartott filmek paraméterei, legfontosabb adatai
 > egy látványos, képes weboldalon._
 
 
 **Elfogadási kritérium:**  
 Az oldalra navigálva megjelenik az összes film adata egy helyen.  
-Ezek az adatok az azonosító, a név, a különböző nyilvántartási adatok (készleten lévő darabszám, ár, kategória, megjelenés éve stb.), illetve egy kép.
+Ezek az adatok az azonosító, a név, a különböző nyilvántartási adatok (pl.: ár, leírás, státusz) illetve egy kép.
 
 **Megjegyzések:**
 
 1# szcenárió | 2# szcenárió
 ------------ | -------------
-A Filmek gombra való kattintással megjelenik az összes film adata lista formátumban egy helyen. | A Filmek gombra való kattintással megjelenik az összes film adata kártyás/rácsos formátumban egy helyen. 
+A Termékek gombra való kattintással megjelenik az összes film adata kártyás/rácsos formátumban egy helyen. | A Termékek gombra való kattintással megjelenik az összes film adata lista formátumban egy helyen.
 
 Mindkét szcenárió megvalósítása esetén a kártyás nézetben a Listanézet gombra való kattintással a listanézetre lehet navigálni.
 
@@ -83,34 +82,6 @@ Mindkét szcenárió megvalósítása esetén a kártyás nézetben a Listanéze
 - A törlést követően frissül a listaoldal, ahol a már törölt film nem látható.
 
 ---
-
-**5. agilis felhasználói történet:**
-
-> _A filmek kategóriák szerint listázhatók._
-
-**Elfogadási kritérium:**  
-A kategória kiválasztásával frissül a listaoldal, ahol csak a szűrt adatok láthatók.
-
----
-
-**6. agilis felhasználói történet:**
-
-> _Bármilyen kulcsszóra lehet keresni egy választott kategórián belül._
-
-**Elfogadási kritérium:**  
-A kategória kiválasztásával és a kulcsszónak megfelelően frissül a listaoldal, ahol csak a szűrt adatok láthatók.
-
----
-
-**7. agilis felhasználói történet:**
-
-> _Különbözőképpen sorrendbe rendezhetőek a filmek egyes kategóriái._
-
-**Elfogadási kritérium:**  
-- A szám típusú adatok alapján növekvő és csökkenő sorrendben lehet rendezni a filmeket.
-- A szöveges adatok alapján abc-szerinti és fordított sorrendben lehet rendezni a filmeket.
-
----
 ---
 
 ## _A projekt egyéb adatai:_
@@ -122,4 +93,4 @@ magas
 10 hét
 
 **További fejlesztési lehetőségek:**  
-- Az egyes aloldalakon statisztikák, kimutatások készítése a legfontosabb adatokból.
+- Az oldalakon a design elemek javítása, illetve a Termékek oldalon a filmborítók azonos méretűre formázása.
