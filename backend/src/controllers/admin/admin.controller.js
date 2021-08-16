@@ -14,12 +14,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const user = await adminService.findOne(req.params.id);
-  if (!user) {
-    return next(new createError.NotFound('User is not found'));
+  try {
+    const user = await adminService.findOne(req.params.id);
+    if (!user) {
+      return next(new createError.NotFound('Admin is not found'));
+    }
+    res.json(user);
+    return user;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(user);
-  return user;
 };
 
 exports.create = async (req, res, next) => {
@@ -60,13 +64,17 @@ exports.update = async (req, res, next) => {
     email, password, active,
   } = req.body;
 
-  const oldData = await adminService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Admin is not found!'));
-  }
-
+  let oldData = null;
   let updatedEntity = {};
+
+  try {
+    oldData = await adminService.findOne(id);
+    if (!oldData) {
+      return next(new createError.NotFound('Admin is not found!'));
+    }
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
+  }
 
   bcrypt.hash(password, saltRounds, async (err, hash) => {
     if (err) {

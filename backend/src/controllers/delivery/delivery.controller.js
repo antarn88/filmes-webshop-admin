@@ -9,12 +9,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const delivery = await deliveryService.findOne(req.params.id);
-  if (!delivery) {
-    return next(new createError.NotFound('Delivery is not found!'));
+  try {
+    const delivery = await deliveryService.findOne(req.params.id);
+    if (!delivery) {
+      return next(new createError.NotFound('Delivery is not found!'));
+    }
+    res.json(delivery);
+    return delivery;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(delivery);
-  return delivery;
 };
 
 exports.create = async (req, res, next) => {
@@ -43,29 +47,27 @@ exports.update = async (req, res, next) => {
     customer, products, note, order,
   } = req.body;
 
-  const oldData = await deliveryService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Delivery is not found!'));
-  }
-
-  const updatedData = {
-    _id: id,
-    customer: customer === undefined ? oldData.customer : customer,
-    order: order === undefined ? oldData.order : order,
-    products: products === undefined ? oldData.products : products,
-    note: note === undefined ? oldData.note : note,
-  };
-
-  let updatedEntity = {};
-
   try {
-    updatedEntity = await deliveryService.update(updatedData._id, updatedData);
+    const oldData = await deliveryService.findOne(id);
+
+    if (!oldData) {
+      return next(new createError.NotFound('Delivery is not found!'));
+    }
+
+    const updatedData = {
+      _id: id,
+      customer: customer === undefined ? oldData.customer : customer,
+      order: order === undefined ? oldData.order : order,
+      products: products === undefined ? oldData.products : products,
+      note: note === undefined ? oldData.note : note,
+    };
+
+    const updatedEntity = await deliveryService.update(updatedData._id, updatedData);
+    res.json(updatedEntity);
+    return updatedEntity;
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
-  res.json(updatedEntity);
-  return updatedEntity;
 };
 
 exports.delete = async (req, res, next) => {

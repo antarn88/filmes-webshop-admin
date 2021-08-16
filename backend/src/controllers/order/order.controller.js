@@ -9,12 +9,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const order = await orderService.findOne(req.params.id);
-  if (!order) {
-    return next(new createError.NotFound('Order is not found!'));
+  try {
+    const order = await orderService.findOne(req.params.id);
+    if (!order) {
+      return next(new createError.NotFound('Order is not found!'));
+    }
+    res.json(order);
+    return order;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(order);
-  return order;
 };
 
 exports.create = async (req, res, next) => {
@@ -43,29 +47,27 @@ exports.update = async (req, res, next) => {
     customer, bill, products, note,
   } = req.body;
 
-  const oldData = await orderService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Order is not found!'));
-  }
-
-  const updatedData = {
-    _id: id,
-    customer: customer === undefined ? oldData.customer : customer,
-    bill: bill === undefined ? oldData.bill : bill,
-    products: products === undefined ? oldData.products : products,
-    note: note === undefined ? oldData.note : note,
-  };
-
-  let updatedEntity = {};
-
   try {
-    updatedEntity = await orderService.update(updatedData._id, updatedData);
+    const oldData = await orderService.findOne(id);
+
+    if (!oldData) {
+      return next(new createError.NotFound('Order is not found!'));
+    }
+
+    const updatedData = {
+      _id: id,
+      customer: customer === undefined ? oldData.customer : customer,
+      bill: bill === undefined ? oldData.bill : bill,
+      products: products === undefined ? oldData.products : products,
+      note: note === undefined ? oldData.note : note,
+    };
+
+    const updatedEntity = await orderService.update(updatedData._id, updatedData);
+    res.json(updatedEntity);
+    return updatedEntity;
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
-  res.json(updatedEntity);
-  return updatedEntity;
 };
 
 exports.delete = async (req, res, next) => {

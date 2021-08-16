@@ -26,7 +26,7 @@ exports.create = async (req, res, next) => {
     name, description, price, photo, active,
   } = req.body;
 
-  if (!name || !description || !price || !photo || !active) {
+  if (!name || !description || !price || !photo || active === undefined) {
     return next(new createError.BadRequest('Missing properties!'));
   }
 
@@ -51,8 +51,6 @@ exports.update = async (req, res, next) => {
     name, description, price, photo, active,
   } = req.body;
 
-  let updatedEntity = {};
-
   try {
     const oldData = await productService.findOne(id);
 
@@ -69,13 +67,12 @@ exports.update = async (req, res, next) => {
       active: active === undefined ? oldData.active : active,
     };
 
-    updatedEntity = await productService.update(updatedData._id, updatedData);
+    const updatedEntity = await productService.update(updatedData._id, updatedData);
+    res.json(updatedEntity);
+    return updatedEntity;
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
-
-  res.json(updatedEntity);
-  return updatedEntity;
 };
 
 exports.delete = async (req, res, next) => {

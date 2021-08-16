@@ -9,12 +9,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const customer = await customerService.findOne(req.params.id);
-  if (!customer) {
-    return next(new createError.NotFound('Customer is not found!'));
+  try {
+    const customer = await customerService.findOne(req.params.id);
+    if (!customer) {
+      return next(new createError.NotFound('Customer is not found!'));
+    }
+    res.json(customer);
+    return customer;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(customer);
-  return customer;
 };
 
 exports.create = async (req, res, next) => {
@@ -22,7 +26,7 @@ exports.create = async (req, res, next) => {
     firstName, lastName, email, address, active,
   } = req.body;
 
-  if (!firstName || !lastName || !email || !address || !active) {
+  if (!firstName || !lastName || !email || !address || active === undefined) {
     return next(new createError.BadRequest('Missing properties!'));
   }
   const newCustomerFromReqBody = {
@@ -42,30 +46,28 @@ exports.update = async (req, res, next) => {
     firstName, lastName, email, address, active,
   } = req.body;
 
-  const oldData = await customerService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Customer is not found!'));
-  }
-
-  const updatedData = {
-    _id: id,
-    firstName: firstName || oldData.firstName,
-    lastName: lastName || oldData.lastName,
-    email: email || oldData.email,
-    address: address || oldData.address,
-    active: active === undefined ? oldData.active : active,
-  };
-
-  let updatedEntity = {};
-
   try {
-    updatedEntity = await customerService.update(updatedData._id, updatedData);
+    const oldData = await customerService.findOne(id);
+
+    if (!oldData) {
+      return next(new createError.NotFound('Customer is not found!'));
+    }
+
+    const updatedData = {
+      _id: id,
+      firstName: firstName || oldData.firstName,
+      lastName: lastName || oldData.lastName,
+      email: email || oldData.email,
+      address: address || oldData.address,
+      active: active === undefined ? oldData.active : active,
+    };
+
+    const updatedEntity = await customerService.update(updatedData._id, updatedData);
+    res.json(updatedEntity);
+    return updatedEntity;
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
-  res.json(updatedEntity);
-  return updatedEntity;
 };
 
 exports.delete = async (req, res, next) => {

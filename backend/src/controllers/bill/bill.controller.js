@@ -9,12 +9,16 @@ exports.findAll = async (_req, res) => {
 };
 
 exports.findOne = async (req, res, next) => {
-  const bill = await billService.findOne(req.params.id);
-  if (!bill) {
-    return next(new createError.NotFound('Bill is not found!'));
+  try {
+    const bill = await billService.findOne(req.params.id);
+    if (!bill) {
+      return next(new createError.NotFound('Bill is not found!'));
+    }
+    res.json(bill);
+    return bill;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
   }
-  res.json(bill);
-  return bill;
 };
 
 exports.create = async (req, res, next) => {
@@ -43,29 +47,27 @@ exports.update = async (req, res, next) => {
     customer, products, sum, paid,
   } = req.body;
 
-  const oldData = await billService.findOne(id);
-
-  if (!oldData) {
-    return next(new createError.NotFound('Bill is not found!'));
-  }
-
-  const updatedData = {
-    _id: id,
-    customer: customer === undefined ? oldData.customer : customer,
-    products: products === undefined ? oldData.products : products,
-    sum: sum === undefined ? oldData.sum : sum,
-    paid: paid === undefined ? oldData.paid : paid,
-  };
-
-  let updatedEntity = {};
-
   try {
-    updatedEntity = await billService.update(updatedData._id, updatedData);
+    const oldData = await billService.findOne(id);
+
+    if (!oldData) {
+      return next(new createError.NotFound('Bill is not found!'));
+    }
+
+    const updatedData = {
+      _id: id,
+      customer: customer === undefined ? oldData.customer : customer,
+      products: products === undefined ? oldData.products : products,
+      sum: sum === undefined ? oldData.sum : sum,
+      paid: paid === undefined ? oldData.paid : paid,
+    };
+
+    const updatedEntity = await billService.update(updatedData._id, updatedData);
+    res.json(updatedEntity);
+    return updatedEntity;
   } catch (error) {
     return next(new createError.InternalServerError(error.message));
   }
-  res.json(updatedEntity);
-  return updatedEntity;
 };
 
 exports.delete = async (req, res, next) => {
