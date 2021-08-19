@@ -8,6 +8,7 @@ router.post('/', (req, res, next) => controller.create(req, res, next));
 
 // READ
 router.get('/', (req, res) => controller.findAll(req, res));
+router.get('/email=:email', (req, res, next) => controller.findByEmail(req, res, next));
 router.get('/:id', (req, res, next) => controller.findOne(req, res, next));
 
 // UPDATE

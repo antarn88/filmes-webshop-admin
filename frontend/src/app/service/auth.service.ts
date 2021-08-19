@@ -11,8 +11,9 @@ import { AdminService } from './admin.service';
 export class AuthService {
 
   loginUrl: string = 'http://localhost:3000/api/login';
-  logoutUrl: string = 'http://localhost:3000/logout';
+  logoutUrl: string = 'http://localhost:3000/api/logout';
   currentAdminSubject: BehaviorSubject<any> = new BehaviorSubject(null);
+  lastSessionId: string = '';
   lastToken: string = '';
   storageName: string = 'currentAdmin';
 
@@ -32,23 +33,25 @@ export class AuthService {
     return this.currentAdminSubject.value;
   }
 
-  async login(loginData: Admin): Promise<Observable<{ accessToken: string; }>> {
-    let admins: Admin | Admin[] = [];
-    let response: { accessToken: string; } = { accessToken: '' };
+  async login(loginData: Admin): Promise<Observable<{ _id: string, accessToken: string; }>> {
+    let admin: Admin = new Admin();
+    let response: { _id: string, accessToken: string; } = { _id: '', accessToken: '' };
 
-    response = await this.http.post<{ accessToken: string }>(
+    response = await this.http.post<{ _id: string, accessToken: string; }>(
       this.loginUrl,
       { email: loginData.email, password: loginData.password }
     ).toPromise();
 
-    if (response.accessToken) {
+    if (response._id && response.accessToken) {
+      this.lastSessionId = response._id;
       this.lastToken = response.accessToken;
-      admins = await this.adminService.query(`email=${loginData.email}`, this.lastToken).toPromise();
+      admin = await this.adminService.findByEmail(loginData.email, this.lastToken, this.lastSessionId).toPromise();
 
-      if (admins && Array.isArray(admins)) {
-        admins[0].token = this.lastToken;
-        localStorage.setItem(this.storageName, JSON.stringify(admins[0]));
-        this.currentAdminSubject.next(admins[0]);
+      if (admin) {
+        admin.sessionId = this.lastSessionId;
+        admin.token = this.lastToken;
+        localStorage.setItem(this.storageName, JSON.stringify(admin));
+        this.currentAdminSubject.next(admin);
       } else {
         localStorage.removeItem(this.storageName);
         this.currentAdminSubject.next(new Admin());
@@ -56,10 +59,14 @@ export class AuthService {
 
       return of(response);
     }
-    return of({ accessToken: '' });
+    return of({ _id: '', accessToken: '' });
   }
 
   async logout(): Promise<void> {
+    // Delete session from database
+    const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin')!);
+    await this.http.post<{}>(this.logoutUrl, { sessionId: currentAdmin.sessionId, token: currentAdmin.token }).toPromise();
+
     this.lastToken = '';
     localStorage.removeItem('currentAdmin');
     this.currentAdminSubject.next(null);

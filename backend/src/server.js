@@ -44,6 +44,7 @@ app.use(cors());
 
 // Backend routes
 app.post('/api/login', authHandler.login);
+app.post('/api/logout', authHandler.logout);
 app.use('/api/products', authenticateJwt, require('./routes/product.routes'));
 app.use('/api/customers', authenticateJwt, require('./routes/customer.routes'));
 app.use('/api/admins', authenticateJwt, require('./routes/admin.routes'));
@@ -54,12 +55,12 @@ app.use('/api/deliveries', authenticateJwt, require('./routes/delivery.routes'))
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Use public folder for frontend
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // Frontend routing to force
-app.get('*', (_req, res) => {
-  res.sendFile(join(__dirname, '../public/index.html'));
-});
+// app.get('*', (_req, res) => {
+//   res.sendFile(join(__dirname, '../public/index.html'));
+// });
 
 // Error handling middleware
 app.use((err, req, res, next) => {

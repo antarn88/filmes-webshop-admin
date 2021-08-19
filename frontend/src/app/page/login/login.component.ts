@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
   ) { }
 
-  // tslint:disable-next-line: no-empty
   ngOnInit(): void {
   }
 

@@ -16,7 +16,8 @@ export class JwtInterceptorService {
     if (currentAdmin && currentAdmin.token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${currentAdmin.token}`
+          Authorization: `Bearer ${currentAdmin.token}`,
+          sessionId: currentAdmin.sessionId!,
         }
       });
     }

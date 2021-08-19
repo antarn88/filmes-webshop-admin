@@ -26,6 +26,19 @@ exports.findOne = async (req, res, next) => {
   }
 };
 
+exports.findByEmail = async (req, res, next) => {
+  try {
+    const admin = await adminService.findByEmail(req.params.email);
+    if (!admin) {
+      return next(new createError.NotFound('Admin is not found'));
+    }
+    res.json(admin);
+    return admin;
+  } catch (error) {
+    return next(new createError.InternalServerError(error.message));
+  }
+};
+
 exports.create = async (req, res, next) => {
   const {
     email, password, active,
