@@ -62,10 +62,12 @@ export class AuthService {
     return of({ _id: '', accessToken: '' });
   }
 
-  async logout(): Promise<void> {
-    // Delete session from database
-    const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin')!);
-    await this.http.post<{}>(this.logoutUrl, { sessionId: currentAdmin.sessionId, token: currentAdmin.token }).toPromise();
+  async logout(ignoreHttp: boolean = false): Promise<void> {
+    if (!ignoreHttp) {
+      // Delete session from database
+      const currentAdmin = JSON.parse(localStorage.getItem('currentAdmin')!);
+      await this.http.post<{}>(this.logoutUrl, { sessionId: currentAdmin.sessionId, token: currentAdmin.token }).toPromise();
+    }
 
     this.lastToken = '';
     localStorage.removeItem('currentAdmin');
