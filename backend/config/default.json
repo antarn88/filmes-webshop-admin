@@ -3,5 +3,13 @@
     "host": "cluster0.quwo5.mongodb.net/vizsgaremek?retryWrites=true&w=majority",
     "user": "dbUser",
     "password": "M7uoW0zl1ogOEHCI"
+  },
+  "emailSending": {
+    "smtp": "smtp.gmail.com",
+    "port": 465,
+    "ssl": true,
+    "username": "filmes.webshop@gmail.com",
+    "password": "@{vHH2tYH#wE2@:{",
+    "emailFrom": "'Filmes Webshop' <filmes.webshop@gmail.com>"
   }
 }

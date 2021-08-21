@@ -9,6 +9,7 @@ import { CustomersComponent } from './page/customers/customers.component';
 import { DeliveriesComponent } from './page/deliveries/deliveries.component';
 import { DeliveryEditorComponent } from './page/delivery-editor/delivery-editor.component';
 import { ForbiddenComponent } from './page/forbidden/forbidden.component';
+import { ForgottenPasswordComponent } from './page/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './page/home/home.component';
 import { LoginComponent } from './page/login/login.component';
 import { OrderEditorComponent } from './page/order-editor/order-editor.component';
@@ -90,6 +91,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'forgotten-password',
+    component: ForgottenPasswordComponent
   },
   {
     path: '**',

@@ -35,6 +35,7 @@ import { JwtInterceptorService } from './service/jwt-interceptor.service';
 import { FooterComponent } from './widget/footer/footer.component';
 import { ModalComponent } from './widget/modal/modal.component';
 import { ProductChooserComponent } from './widget/product-chooser/product-chooser.component';
+import { ForgottenPasswordComponent } from './page/forgotten-password/forgotten-password.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ProductChooserComponent } from './widget/product-chooser/product-choose
     FooterComponent,
     ModalComponent,
     ProductChooserComponent,
+    ForgottenPasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,0 @@
-{
-  "database": {
-    "host": "cluster0.quwo5.mongodb.net/vizsgaremekTest?retryWrites=true&w=majority",
-    "user": "dbUser",
-    "password": "M7uoW0zl1ogOEHCI"
-  }
-}

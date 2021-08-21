@@ -17,6 +17,10 @@
 
     <button class="w-100 btn btn-lg btn-primary mt-2" type="submit" [disabled]="loginForm.invalid">Belépés</button>
 
+    <div class="d-flex justify-content-center mt-3">
+      <a routerLink="/forgotten-password" class="link-primary">Elfelejtett jelszó</a>
+    </div>
+
     <div *ngIf="serverError && loginForm.submitted" class="alert alert-danger mt-3">{{ serverError }}</div>
 
     <p class="mt-5 mb-3 text-muted text-center">&copy; 2021</p>
