@@ -54,3 +54,5 @@ exports.sendEmail = (req, res, next) => {
     return next(new createError.InternalServerError(error.message));
   }
 };
+
+module.exports = EmailSender;

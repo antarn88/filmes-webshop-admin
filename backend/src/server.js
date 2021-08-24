@@ -52,6 +52,7 @@ app.use('/api/bills', authenticateJwt, require('./routes/bill.routes'));
 app.use('/api/orders', authenticateJwt, require('./routes/order.routes'));
 app.use('/api/deliveries', authenticateJwt, require('./routes/delivery.routes'));
 app.use('/api/sendEmail', require('./routes/sendEmail.routes'));
+app.use('/api/restoreAccount', require('./routes/restoreAccountToken.routes'));
 
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

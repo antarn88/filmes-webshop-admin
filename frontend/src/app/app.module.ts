@@ -36,6 +36,7 @@ import { FooterComponent } from './widget/footer/footer.component';
 import { ModalComponent } from './widget/modal/modal.component';
 import { ProductChooserComponent } from './widget/product-chooser/product-chooser.component';
 import { ForgottenPasswordComponent } from './page/forgotten-password/forgotten-password.component';
+import { RestoreAccountComponent } from './page/restore-account/restore-account.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ForgottenPasswordComponent } from './page/forgotten-password/forgotten-
     ModalComponent,
     ProductChooserComponent,
     ForgottenPasswordComponent,
+    RestoreAccountComponent,
   ],
   imports: [
     BrowserModule,

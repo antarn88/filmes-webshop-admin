@@ -16,6 +16,7 @@ import { OrderEditorComponent } from './page/order-editor/order-editor.component
 import { OrdersComponent } from './page/orders/orders.component';
 import { ProductEditorComponent } from './page/product-editor/product-editor.component';
 import { ProductsComponent } from './page/products/products.component';
+import { RestoreAccountComponent } from './page/restore-account/restore-account.component';
 import { AuthGuardService } from './service/auth-guard.service';
 
 const routes: Routes = [
@@ -93,8 +94,12 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'forgotten-password',
+    path: 'forgottenPassword',
     component: ForgottenPasswordComponent
+  },
+  {
+    path: 'restoreAccount/check',
+    component: RestoreAccountComponent
   },
   {
     path: '**',

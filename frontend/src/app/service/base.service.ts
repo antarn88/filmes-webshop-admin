@@ -26,8 +26,8 @@ export class BaseService<T extends { _id: string }> {
     return this.http.post<T>(`${this.apiUrl}/${this.entity}`, entity);
   }
 
-  update(entity: T): Observable<T> {
-    return this.http.patch<T>(`${this.apiUrl}/${this.entity}/${entity._id}`, entity);
+  update(entity: T, options = {}): Observable<T> {
+    return this.http.patch<T>(`${this.apiUrl}/${this.entity}/${entity._id}`, entity, options);
   }
 
   delete(_id: string): Observable<T> {
