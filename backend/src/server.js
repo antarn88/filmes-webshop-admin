@@ -27,8 +27,7 @@ mongoose.Promise = global.Promise;
   try {
     const { host, user, password } = config.get('database');
     const connectionString = `mongodb+srv://${user}:${password}@${host}`;
-    // @ts-ignore
-    await mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(connectionString);
     logger.info('MongoDB connection has been established successfully.');
   } catch (error) {
     logger.error(error.message);
@@ -58,12 +57,12 @@ app.use('/api/restoreAccount', require('./routes/restoreAccountToken.routes'));
 app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Use public folder for frontend
-// app.use(express.static('public'));
+app.use(express.static('public'));
 
 // Frontend routing to force
-// app.get('*', (_req, res) => {
-//   res.sendFile(join(__dirname, '../public/index.html'));
-// });
+app.get('*', (_req, res) => {
+  res.sendFile(join(__dirname, '../public/index.html'));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -43,7 +43,7 @@ exports.create = async (req, res, next) => {
       <h4>A Filmes Webshop admin oldalán jelszóhelyreállítást kezdeményeztél.<br>
       Új jelszó beállításához kattints az alábbi linkre:</h4>
 
-      <p>http://localhost:4200/restoreAccount/check?email=${email}&token=${unencryptedToken}</p>
+      <p>http://localhost:3000/restoreAccount/check?email=${email}&token=${unencryptedToken}</p>
       
       <h4>Amennyiben nem te kezdeményezted a kérést, úgy kérlek hagyd figyelmen kívül ezt az üzenetet!</h4>
 
