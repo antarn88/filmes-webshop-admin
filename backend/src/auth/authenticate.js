@@ -20,11 +20,14 @@ module.exports = async (req, res, next) => {
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) {
+        return res.sendStatus(403);
+      }
 
       req.user = user;
       return next();
     });
+
   } else {
     return res.sendStatus(401);
   }

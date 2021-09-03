@@ -19,14 +19,23 @@
         </div>
         <div class="mb-3">
           <label for="password1Field" class="form-label">Új jelszó:</label>
-          <input type="password" class="form-control" id="password1Field" name="password1" ngModel required>
+          <input type="password" class="form-control" id="password1Field" name="password1" ngModel required minlength="5">
+          <small [hidden]="restoreAccountForm.controls.password1?.valid || restoreAccountForm.controls.password1?.pristine"
+          class="error-message">
+          Hiányzó vagy túl rövid jelszó!
+        </small>
         </div>
-        <!-- <div class="mb-4">
+        <div class="mb-4">
           <label for="password2Field" class="form-label">Új jelszó újra:</label>
-          <input type="password" class="form-control" id="password2Field" name="password2" ngModel required>
-        </div> -->
+          <input type="password" class="form-control" id="password2Field" name="password2" ngModel required minlength="5">
+          <small [hidden]="restoreAccountForm.controls.password2?.valid || restoreAccountForm.controls.password2?.pristine"
+          class="error-message">
+          Hiányzó vagy túl rövid jelszó!
+        </small>
+        </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary" [disabled]="restoreAccountForm.invalid"><i class="fa fa-save"></i> Mentés</button>
+          <button type="submit" class="btn btn-primary" [disabled]="restoreAccountForm.invalid"><i class="fa fa-save"></i>
+            Mentés</button>
         </div>
       </form>
     </div>

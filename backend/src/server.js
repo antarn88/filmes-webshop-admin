@@ -27,6 +27,7 @@ mongoose.Promise = global.Promise;
   try {
     const { host, user, password } = config.get('database');
     const connectionString = `mongodb+srv://${user}:${password}@${host}`;
+    // @ts-ignore
     await mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
     logger.info('MongoDB connection has been established successfully.');
   } catch (error) {

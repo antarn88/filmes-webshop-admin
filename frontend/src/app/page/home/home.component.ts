@@ -36,12 +36,16 @@ export class HomeComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.productList = await this.productService.getAll().toPromise();
-    this.orderList = await this.orderService.getAll().toPromise();
-    this.customerList = await this.customerService.getAll().toPromise();
-    this.deliveryList = await this.deliveryService.getAll().toPromise();
-    this.billList = await this.billService.getAll().toPromise();
-    this.adminList = await this.adminService.getAll().toPromise();
+    try {
+      this.productList = await this.productService.getAll().toPromise();
+      this.orderList = await this.orderService.getAll().toPromise();
+      this.customerList = await this.customerService.getAll().toPromise();
+      this.deliveryList = await this.deliveryService.getAll().toPromise();
+      this.billList = await this.billService.getAll().toPromise();
+      this.adminList = await this.adminService.getAll().toPromise();
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
 }
